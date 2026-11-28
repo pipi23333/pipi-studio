@@ -272,16 +272,24 @@
       header {
         flex-wrap: wrap;
       }
-    #languageRecommendation {font-size: 13px; font-weight: 600; color: #52613d;}
-.language-options button[data-recommended] {outline: 2px solid #71814f; outline-offset: 3px;}
-</style>
+      #languageRecommendation {
+        font-size: 13px;
+        font-weight: 600;
+        color: #52613d;
+      }
+      .language-options button[data-recommended] {
+        outline: 2px solid #71814f;
+        outline-offset: 3px;
+      }
+    </style>
   </head>
   <body data-language-pending="">
     <div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="languageTitle">
       <div class="language-card">
         <div class="language-brand">PIPI. STUDIO</div>
         <h2 id="languageTitle">Choose your language</h2>
-        <p>Selecciona tu idioma · 请选择语言</p><p id="languageRecommendation" aria-live="polite"></p>
+        <p>Selecciona tu idioma · 请选择语言</p>
+        <p id="languageRecommendation" aria-live="polite"></p>
         <div class="language-options">
           <button type="button" data-language="es" lang="es">Español</button
           ><button type="button" data-language="en" lang="en">English</button

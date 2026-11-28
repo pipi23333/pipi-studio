@@ -107,7 +107,7 @@ const PipiI18n = (function createI18n(rows) {
     return 'es';
   }
   function hasTranslation(source, lang) {
-    if (!['en','zh'].includes(lang)) return false;
+    if (!['en', 'zh'].includes(lang)) return false;
     const entry = translations.get(source);
     if (entry) return typeof entry[lang] === 'string' && entry[lang].trim().length > 0;
     return translate(source, lang) !== source;
@@ -231,7 +231,17 @@ const PipiI18n = (function createI18n(rows) {
       open();
     }
   }
-  return { translate, setText, setPrice, apply, locale, chooseInitial, recommendLanguage, hasTranslation, mount };
+  return {
+    translate,
+    setText,
+    setPrice,
+    apply,
+    locale,
+    chooseInitial,
+    recommendLanguage,
+    hasTranslation,
+    mount,
+  };
 })([
   ['PIPI Studio · Laboratorio V2', 'PIPI Studio · Creative Lab', 'PIPI Studio · 创意实验室'],
   ['PIPI Color Lab 3.4', 'PIPI Color Lab 3.4', 'PIPI 色彩实验室 3.4'],
