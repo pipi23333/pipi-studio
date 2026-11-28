@@ -14,8 +14,13 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
-      - run: npm run format
-      - run: npm run format:check
+      - name: Format to a stable result
+        run: |
+          for attempt in 1 2 3; do
+            npm run format
+            if npm run format:check; then exit 0; fi
+          done
+          exit 1
       - run: npm test
       - name: Commit formatted source and lockfile
         run: |
