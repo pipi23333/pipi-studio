@@ -222,8 +222,14 @@ function renderDigital() {
       return e;
     }),
   );
-  PipiI18n.setPrice($('quote'), PipiPricing.base[s] + (m > PipiPricing.digitalThreshold ? PipiPricing.digitalExtra : 0));
-  PipiI18n.setText($('pitch'), `${p.length} colores digitales · ${(s / n).toFixed(2)} mm por píxel`);
+  PipiI18n.setPrice(
+    $('quote'),
+    PipiPricing.base[s] + (m > PipiPricing.digitalThreshold ? PipiPricing.digitalExtra : 0),
+  );
+  PipiI18n.setText(
+    $('pitch'),
+    `${p.length} colores digitales · ${(s / n).toFixed(2)} mm por píxel`,
+  );
 }
 function update() {
   if ($('paletteMode').value === 'digital') {
@@ -249,12 +255,18 @@ function update() {
     }),
   );
   PipiI18n.setPrice($('quote'), PipiPricing.base[s]);
-  PipiI18n.setText($('pitch'), `${used.length} colores directos · ${(s / n).toFixed(2)} mm por píxel`);
+  PipiI18n.setText(
+    $('pitch'),
+    `${used.length} colores directos · ${(s / n).toFixed(2)} mm por píxel`,
+  );
   const small = s / n < 0.6;
   $('exportPixel').disabled = $('exportPixelStl').disabled = small || exporting;
-  PipiI18n.setText($('exportStatus'), small
-    ? 'Píxel inferior a 0,6 mm. Aumenta el tamaño o reduce la resolución.'
-    : 'Modelo: base de 1,6 mm + píxeles de 0,8 mm. Prueba de fabricación, no validado en impresora.');
+  PipiI18n.setText(
+    $('exportStatus'),
+    small
+      ? 'Píxel inferior a 0,6 mm. Aumenta el tamaño o reduce la resolución.'
+      : 'Modelo: base de 1,6 mm + píxeles de 0,8 mm. Prueba de fabricación, no validado en impresora.',
+  );
 }
 function multiData() {
   const n = +$('mvN').value,
@@ -351,7 +363,9 @@ async function output(kind, format) {
             ...ms.map((m) => [m.name + '.stl', PipiGeometry.stl(m)]),
             [
               'LEEME.txt',
-              PipiI18n.translate('Importa todos los STL juntos como partes de un único objeto. Conserva las coordenadas originales. Asigna cada parte al filamento indicado en su nombre. Modelo experimental; revisa contactos, solapamientos, escala y trayectorias antes de imprimir. No incluye recetas de mezcla.'),
+              PipiI18n.translate(
+                'Importa todos los STL juntos como partes de un único objeto. Conserva las coordenadas originales. Asigna cada parte al filamento indicado en su nombre. Modelo experimental; revisa contactos, solapamientos, escala y trayectorias antes de imprimir. No incluye recetas de mezcla.',
+              ),
             ],
           ];
     const bytes = await PipiZip.zip(files);
@@ -359,9 +373,12 @@ async function output(kind, format) {
       new Blob([bytes], { type: 'application/zip' }),
       name + (format === '3mf' ? '.3mf' : '-stl.zip'),
     );
-    PipiI18n.setText(stat, 'Archivo generado: ' +
-      ms.length +
-      ' piezas por color. Verifica escala, asignación de materiales y trayectorias en el laminador.');
+    PipiI18n.setText(
+      stat,
+      'Archivo generado: ' +
+        ms.length +
+        ' piezas por color. Verifica escala, asignación de materiales y trayectorias en el laminador.',
+    );
   } catch (e) {
     PipiI18n.setText(stat, 'Error: ' + e.message);
   } finally {

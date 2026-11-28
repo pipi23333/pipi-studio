@@ -100,7 +100,12 @@ function initColorLab(E, doc, platform) {
     status('dbStatus', 'Perfil validado. Descarga JSON para conservarlo.');
   }
   $('generate').onclick = attempt('dbStatus', () => {
-    if (!platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual? Descarga antes tus mediciones.'))) return;
+    if (
+      !platform.confirm(
+        PipiI18n.translate('¿Sustituir el perfil actual? Descarga antes tus mediciones.'),
+      )
+    )
+      return;
     setDB({
       version: 1,
       profile: {
@@ -142,7 +147,8 @@ function initColorLab(E, doc, platform) {
     if (!f) return;
     try {
       if (f.size > 2e6) throw Error('Archivo demasiado grande (2 MB)');
-      if (platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual?'))) setDB(JSON.parse(await f.text()));
+      if (platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual?')))
+        setDB(JSON.parse(await f.text()));
     } catch (e) {
       status('dbStatus', e.message);
     } finally {
