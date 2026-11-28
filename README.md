@@ -20,7 +20,7 @@
 - 样品是程序绘制的演示图形，不是实际客户订单。建议先用 A1 mini 打印单色结构验证几何，再在多色设备上测试。
 
 ## 发布
-将 `index.html` 上传至一个新的 GitHub 仓库，例如 `pipi-studio`。Cloudflare Pages 选择该仓库、Framework preset: None、构建命令留空、输出目录为网站文件所在目录。绑定 `shop.pipi522.top` 并按控制台指引设置 DNS；不要改动现有 `www.pipi522.top` 的个人网站。仓库已建立；部署及 DNS 状态未在本版本中修改。
+部署整个仓库根目录（包括 index.html、color-lab.html、engine/ 和 _headers）；不要只上传 index.html。Cloudflare Pages 选择该仓库、Framework preset: None、构建命令留空、输出目录为网站文件所在目录。绑定 `shop.pipi522.top` 并按控制台指引设置 DNS；不要改动现有 `www.pipi522.top` 的个人网站。仓库已建立；部署及 DNS 状态未在本版本中修改。
 
 正式营业前需确认商标、法律信息、产品安全、隐私政策、退换货、真实价格等，并移除测试提示及 noindex。当前无外部分析追踪、无用户账户、无支付和订单后台。
 
@@ -34,3 +34,11 @@ Chromium 中的图片导入、调色板编辑、角度滑块、PNG 下载、3MF 
 - V3.3：上传照片后生成目标、分配颜色及 ΔE00 热力图，输出均值、P95、最大值、低于2比例、配方使用数；可导出热力 PNG 和逐像素配方 JSON。显示近似 sRGB，不代表实物保证。
 - V3.4：校色候选分页 SVG、全量 CSV、15×15 mm 可调厚度通用平面 STL 样块。需在切片器手动复制、编号、安排配方；不生成自动混色打印板，不生成 Bambu 专属混色 3MF。斜面或垂直面需要对应几何样块。
 - 本次测试：色差算法和配方映射 96 个断言，包括 34 组参考数据；UI 事件使用模拟 DOM 进行 8 项基础检查，静态核对 HTML ID 和原导出处理器。尚未在真实浏览器和实体打印机中完成 V3 集成回归。
+
+## V3.4.1 工程维护
+- 统一 update / drawMulti，直接耗材模式在分辨率、尺寸和边框变化后保持一致；小于 0.6 mm 或数字模式时禁用像素模型导出。
+- engine/geometry.js 提供纯几何和通用 3MF/STL 序列化；engine/zip.js 使用原生 deflate-raw（ZIP method 8），仅在压缩有效时采用，否则回退 stored。所有导出仍需切片验证。
+- engine/studio.js 为网页控制器；engine/pricing.js 集中参考报价。原配方实验室不变。
+- Node 22+：npm test（不需安装依赖）；npm install 后可 npm run format 或 npm run format:check。GitHub Actions 自动执行测试。
+- Cloudflare Pages _headers 安全头仅在部署平台支持时生效；图片本地处理、Blob 下载及样式保留；上线前检查实际浏览器响应头。
+- 制造测试检查索引边闭合和方向、正体积、预期总量及 STL 长度。相邻棱柱仍可能有共享面，不能据此宣称已完成布尔并集或切片认证。
