@@ -1,15 +1,520 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>PIPI Studio · Laboratorio V2</title><style>
-:root{--ink:#252722;--muted:#656861;--paper:#f8f6f0;--accent:#d9e3b2;--line:#dcdcd3}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,sans-serif}a{color:inherit}header,main,footer{max-width:1120px;margin:auto;padding:20px 24px}header{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}.brand{font-size:26px;font-weight:850;letter-spacing:-.06em}nav{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}nav a{text-decoration:none}h1{font-size:clamp(38px,7vw,80px);letter-spacing:-.07em;line-height:1.04;margin:16px 0}h2{font-size:32px;line-height:1.2;letter-spacing:-.04em}h3{margin:0}.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;align-items:center;padding:50px 0}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:700}.lede{font-size:19px;color:var(--muted);max-width:560px}.button,button{display:inline-block;background:var(--ink);color:white;border:0;border-radius:8px;padding:12px 19px;font:inherit;cursor:pointer;text-decoration:none}button.secondary{color:var(--ink);background:var(--accent)}button:disabled{opacity:.55;cursor:not-allowed}.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:24px}.hero-art{background:#e8e2d3;padding:30px;border-radius:20px;display:grid;place-items:center;min-height:320px}.hero-art canvas{width:min(100%,300px);image-rendering:pixelated;box-shadow:8px 12px 0 #b6ae9c;border:12px solid #343a32}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.product{background:#fff;border-radius:14px;padding:20px;border:1px solid var(--line)}.product .visual{height:130px;border-radius:10px;display:grid;place-items:center;margin-bottom:12px;font-size:40px;font-weight:bold;letter-spacing:-.08em;background:#d9e3b2}.product:nth-child(2) .visual{background:repeating-linear-gradient(110deg,#c88366 0 12px,#e9cfb0 12px 24px)}.product:nth-child(3) .visual{background:#dce1e7}.muted,small{color:var(--muted)}section{scroll-margin-top:12px;margin:32px 0 54px}.workbench{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}.preview{min-height:330px;background:#e8e2d3;border-radius:12px;padding:28px;display:grid;place-items:center}.preview canvas{max-width:100%;width:320px;image-rendering:pixelated;box-shadow:6px 9px 0 #b9b19e;border:10px solid #292c29}.controls{display:grid;gap:14px}textarea{resize:vertical}#palettePanel{background:#f4f4ed;padding:12px;border-radius:8px}#palettePanel button{margin-top:8px}.controls p{margin:0}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #71814f;outline-offset:3px}.controls label{display:grid;gap:5px;font-weight:650;font-size:14px}input,select,textarea{font:inherit;width:100%;padding:10px;border:1px solid #bfc2b9;border-radius:6px;background:#fff;color:var(--ink)}input[type=range]{padding:0;accent-color:#363d2c}.readout{background:#f0f3e7;padding:15px;border-radius:9px}.swatches{display:flex;flex-wrap:wrap;gap:5px}.swatches span{width:20px;height:20px;border:1px solid #9995;border-radius:3px}.notice{border-left:3px solid #9a7e44;padding:8px 12px;background:#f8f3e6;font-size:14px}.mvcanvas{width:100%;max-width:620px;display:block;margin:auto;background:#ede9df;border-radius:12px}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}footer{border-top:1px solid var(--line);font-size:14px}@media(max-width:720px){.hero,.workbench,.grid{grid-template-columns:1fr}.hero{padding:24px 0}header{align-items:flex-start;flex-direction:column}.panel{padding:16px}.preview{min-height:240px}}
-</style></head><body><header><div class="brand">PIPI<span style="color:#71814f">.</span> STUDIO</div><nav><a href="#colecciones">Colecciones</a><a href="#pixel">Personaliza</a><a href="#multiview">MultiView</a><a href="color-lab.html">Color Lab V3.4</a></nav></header><main>
-<div class="notice">Laboratorio V2 · Vista previa y archivos de prueba. No admite pedidos, pagos ni envíos. Los precios son orientativos.</div>
-<div class="hero"><div><div class="eyebrow">Concepto de estudio creativo · Madrid</div><h1>Tus recuerdos, en otra dimensión.</h1><p class="lede">Explora el arte de píxeles y las imágenes que cambian con tu perspectiva.</p><a class="button" href="#pixel">Prueba el personalizador</a></div><div class="hero-art"><canvas id="hero" width="32" height="32" aria-label="Ilustración de ejemplo"></canvas></div></div>
-<section id="colecciones"><h2>Colecciones</h2><div class="grid"><article class="product"><div class="visual">▦</div><h3>Pixel Art</h3><p class="muted">Retratos personalizados, cuadros y recuerdos.</p><a href="#pixel">Probar · desde 19,90 €</a></article><article class="product"><div class="visual">A / B</div><h3>MultiView</h3><p class="muted">Dos imágenes en una superficie de relieve.</p><a href="#multiview">Explorar prototipo</a></article><article class="product"><div class="visual">INK</div><h3>Ink Art</h3><p class="muted">Marcos y carcasas para tinta electrónica.</p><small>En investigación</small></article></div></section>
-<section id="pixel"><h2>Personaliza tu Pixel Art</h2><div class="panel workbench"><div><div class="preview"><canvas id="pixelCanvas" width="32" height="32" aria-label="Vista previa pixelada"></canvas></div><p class="muted" id="pixelStatus" role="status">Imagen de ejemplo. Tu foto se procesa en este navegador.</p><div id="swatches" class="swatches" aria-label="Paleta de colores"></div></div><div class="controls"><label>Tu imagen (JPG, PNG, WebP)<input id="upload" type="file" accept="image/jpeg,image/png,image/webp"></label><label>Resolución<select id="res"><option value="16">16 × 16</option><option value="32" selected>32 × 32</option><option value="64">64 × 64</option><option value="128">128 × 128</option></select></label><label>Máximo de colores<select id="colors"><option>8</option><option selected>16</option><option>32</option><option>64</option></select></label><label>Tamaño<select id="size"><option value="60">6 cm</option><option value="120" selected>12 cm</option><option value="180">18 cm</option></select></label><label>Modo de color<select id="paletteMode"><option value="digital">Paleta digital de la foto</option><option value="physical">Filamentos directos (hasta 9)</option></select></label><div id="palettePanel" hidden><label>Colores de filamento (HEX, separados por comas)<textarea id="physicalPalette" rows="3" spellcheck="false">#00B5DB, #DC1685, #F4D900, #222222, #FAFAFA, #B77B45, #E6BA90, #456B9B, #628B5A</textarea></label><small>Valores ilustrativos. Sustitúyelos por colores medidos de tus filamentos. El primer color se usa también en la base.</small><button class="secondary" id="applyPalette" type="button">Aplicar paleta</button><p id="paletteError" role="status" class="muted"></p></div><label>Marco<select id="frame"><option value="#292c29">Negro</option><option value="#f9f8ef">Blanco</option><option value="#a47b58">Arena</option><option value="#778b70">Verde</option></select></label><div class="readout"><strong id="quote"></strong><br><small id="pitch"></small><br><small>Precio orientativo con IVA, sin envío. No es una oferta.</small></div><button id="save" class="secondary">Guardar vista previa PNG</button><button id="exportPixel" type="button">Exportar modelo Pixel 3MF</button><button id="exportPixelStl" type="button" class="secondary">Exportar piezas STL (ZIP)</button><p id="exportStatus" role="status" class="muted"></p></div></div><p class="notice">La paleta digital no representa colores físicos. Para fabricar, selecciona Filamentos directos. El 3MF contiene piezas por color, no recetas de mezcla ni un perfil de Bambu Studio. El marco de la vista previa no forma parte del modelo exportado.</p></section>
-<section id="multiview"><h2>Dos imágenes, nuevas perspectivas</h2><div class="panel"><canvas id="multi" class="mvcanvas" width="620" height="340" aria-label="Simulación geométrica de una superficie con facetas"></canvas><div class="controls" style="margin-top:16px"><div class="workbench"><label>Imagen izquierda<input id="leftFile" type="file" accept="image/jpeg,image/png,image/webp"></label><label>Imagen derecha<input id="rightFile" type="file" accept="image/jpeg,image/png,image/webp"></label></div><div class="workbench"><label>Crestas / columnas<select id="mvN"><option value="16">16</option><option value="24" selected>24</option><option value="32">32</option><option value="48">48</option></select></label><label>Ancho del relieve<select id="mvSize"><option value="100">100 mm</option><option value="150" selected>150 mm</option><option value="200">200 mm</option></select></label></div><small>MultiView usa la paleta de filamentos del apartado Pixel Art. Cada cresta tiene dos caras a 45°.</small><label>Ángulo de observación <span id="angleLabel">0°</span><input id="angle" type="range" min="-60" max="60" value="0"></label><div class="row"><button class="secondary" data-angle="-45">Izquierda</button><button class="secondary" data-angle="0">Frontal</button><button class="secondary" data-angle="45">Derecha</button></div></div><p class="muted">Proyección ortográfica de la geometría exportada, con oclusión por las crestas. Sin simulación de luz o mezcla óptica. El frontal combina las dos imágenes.</p><div class="row"><button id="exportMulti" type="button">Exportar relieve 3MF</button><button id="exportMultiStl" type="button" class="secondary">Exportar piezas STL (ZIP)</button></div><p id="multiStatus" class="muted" role="status"></p></div></section>
-</main><footer><strong>PIPI Studio · Laboratorio V3.4 de trabajo</strong><p>Sin transacciones. Antes de publicar: verificar marca, datos legales, privacidad, seguridad de productos y precios. Las imágenes seleccionadas se procesan localmente y no se envían a ningún servidor.</p></footer>
-<script src="engine/color-engine.js"></script>
-<script src="engine/geometry.js"></script>
-<script src="engine/zip.js"></script>
-<script src="engine/pricing.js"></script>
-<script src="engine/studio.js"></script></body></html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>PIPI Studio · Laboratorio V2</title>
+    <style>
+      :root {
+        --ink: #252722;
+        --muted: #656861;
+        --paper: #f8f6f0;
+        --accent: #d9e3b2;
+        --line: #dcdcd3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          16px/1.6 system-ui,
+          sans-serif;
+      }
+      a {
+        color: inherit;
+      }
+      header,
+      main,
+      footer {
+        max-width: 1120px;
+        margin: auto;
+        padding: 20px 24px;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        font-size: 26px;
+        font-weight: 850;
+        letter-spacing: -0.06em;
+      }
+      nav {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 14px;
+      }
+      nav a {
+        text-decoration: none;
+      }
+      h1 {
+        font-size: clamp(38px, 7vw, 80px);
+        letter-spacing: -0.07em;
+        line-height: 1.04;
+        margin: 16px 0;
+      }
+      h2 {
+        font-size: 32px;
+        line-height: 1.2;
+        letter-spacing: -0.04em;
+      }
+      h3 {
+        margin: 0;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 36px;
+        align-items: center;
+        padding: 50px 0;
+      }
+      .eyebrow {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .lede {
+        font-size: 19px;
+        color: var(--muted);
+        max-width: 560px;
+      }
+      .button,
+      button {
+        display: inline-block;
+        background: var(--ink);
+        color: white;
+        border: 0;
+        border-radius: 8px;
+        padding: 12px 19px;
+        font: inherit;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      button.secondary {
+        color: var(--ink);
+        background: var(--accent);
+      }
+      button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .panel {
+        background: white;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 24px;
+      }
+      .hero-art {
+        background: #e8e2d3;
+        padding: 30px;
+        border-radius: 20px;
+        display: grid;
+        place-items: center;
+        min-height: 320px;
+      }
+      .hero-art canvas {
+        width: min(100%, 300px);
+        image-rendering: pixelated;
+        box-shadow: 8px 12px 0 #b6ae9c;
+        border: 12px solid #343a32;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .product {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        border: 1px solid var(--line);
+      }
+      .product .visual {
+        height: 130px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 12px;
+        font-size: 40px;
+        font-weight: bold;
+        letter-spacing: -0.08em;
+        background: #d9e3b2;
+      }
+      .product:nth-child(2) .visual {
+        background: repeating-linear-gradient(110deg, #c88366 0 12px, #e9cfb0 12px 24px);
+      }
+      .product:nth-child(3) .visual {
+        background: #dce1e7;
+      }
+      .muted,
+      small {
+        color: var(--muted);
+      }
+      section {
+        scroll-margin-top: 12px;
+        margin: 32px 0 54px;
+      }
+      .workbench {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+      .preview {
+        min-height: 330px;
+        background: #e8e2d3;
+        border-radius: 12px;
+        padding: 28px;
+        display: grid;
+        place-items: center;
+      }
+      .preview canvas {
+        max-width: 100%;
+        width: 320px;
+        image-rendering: pixelated;
+        box-shadow: 6px 9px 0 #b9b19e;
+        border: 10px solid #292c29;
+      }
+      .controls {
+        display: grid;
+        gap: 14px;
+      }
+      textarea {
+        resize: vertical;
+      }
+      #palettePanel {
+        background: #f4f4ed;
+        padding: 12px;
+        border-radius: 8px;
+      }
+      #palettePanel button {
+        margin-top: 8px;
+      }
+      .controls p {
+        margin: 0;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible {
+        outline: 3px solid #71814f;
+        outline-offset: 3px;
+      }
+      .controls label {
+        display: grid;
+        gap: 5px;
+        font-weight: 650;
+        font-size: 14px;
+      }
+      input,
+      select,
+      textarea {
+        font: inherit;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #bfc2b9;
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+      }
+      input[type='range'] {
+        padding: 0;
+        accent-color: #363d2c;
+      }
+      .readout {
+        background: #f0f3e7;
+        padding: 15px;
+        border-radius: 9px;
+      }
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .swatches span {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #9995;
+        border-radius: 3px;
+      }
+      .notice {
+        border-left: 3px solid #9a7e44;
+        padding: 8px 12px;
+        background: #f8f3e6;
+        font-size: 14px;
+      }
+      .mvcanvas {
+        width: 100%;
+        max-width: 620px;
+        display: block;
+        margin: auto;
+        background: #ede9df;
+        border-radius: 12px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .row button {
+        flex: 1;
+      }
+      footer {
+        border-top: 1px solid var(--line);
+        font-size: 14px;
+      }
+      @media (max-width: 720px) {
+        .hero,
+        .workbench,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding: 24px 0;
+        }
+        header {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .panel {
+          padding: 16px;
+        }
+        .preview {
+          min-height: 240px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand">PIPI<span style="color: #71814f">.</span> STUDIO</div>
+      <nav>
+        <a href="#colecciones">Colecciones</a><a href="#pixel">Personaliza</a
+        ><a href="#multiview">MultiView</a><a href="color-lab.html">Color Lab V3.4</a>
+      </nav>
+    </header>
+    <main>
+      <div class="notice">
+        Laboratorio V2 · Vista previa y archivos de prueba. No admite pedidos, pagos ni envíos. Los
+        precios son orientativos.
+      </div>
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Concepto de estudio creativo · Madrid</div>
+          <h1>Tus recuerdos, en otra dimensión.</h1>
+          <p class="lede">
+            Explora el arte de píxeles y las imágenes que cambian con tu perspectiva.
+          </p>
+          <a class="button" href="#pixel">Prueba el personalizador</a>
+        </div>
+        <div class="hero-art">
+          <canvas id="hero" width="32" height="32" aria-label="Ilustración de ejemplo"></canvas>
+        </div>
+      </div>
+      <section id="colecciones">
+        <h2>Colecciones</h2>
+        <div class="grid">
+          <article class="product">
+            <div class="visual">▦</div>
+            <h3>Pixel Art</h3>
+            <p class="muted">Retratos personalizados, cuadros y recuerdos.</p>
+            <a href="#pixel">Probar · desde 19,90 €</a>
+          </article>
+          <article class="product">
+            <div class="visual">A / B</div>
+            <h3>MultiView</h3>
+            <p class="muted">Dos imágenes en una superficie de relieve.</p>
+            <a href="#multiview">Explorar prototipo</a>
+          </article>
+          <article class="product">
+            <div class="visual">INK</div>
+            <h3>Ink Art</h3>
+            <p class="muted">Marcos y carcasas para tinta electrónica.</p>
+            <small>En investigación</small>
+          </article>
+        </div>
+      </section>
+      <section id="pixel">
+        <h2>Personaliza tu Pixel Art</h2>
+        <div class="panel workbench">
+          <div>
+            <div class="preview">
+              <canvas
+                id="pixelCanvas"
+                width="32"
+                height="32"
+                aria-label="Vista previa pixelada"
+              ></canvas>
+            </div>
+            <p class="muted" id="pixelStatus" role="status">
+              Imagen de ejemplo. Tu foto se procesa en este navegador.
+            </p>
+            <div id="swatches" class="swatches" aria-label="Paleta de colores"></div>
+          </div>
+          <div class="controls">
+            <label
+              >Tu imagen (JPG, PNG, WebP)<input
+                id="upload"
+                type="file"
+                accept="image/jpeg,image/png,image/webp" /></label
+            ><label
+              >Resolución<select id="res">
+                <option value="16">16 × 16</option>
+                <option value="32" selected>32 × 32</option>
+                <option value="64">64 × 64</option>
+                <option value="128">128 × 128</option>
+              </select></label
+            ><label
+              >Máximo de colores<select id="colors">
+                <option>8</option>
+                <option selected>16</option>
+                <option>32</option>
+                <option>64</option>
+              </select></label
+            ><label
+              >Tamaño<select id="size">
+                <option value="60">6 cm</option>
+                <option value="120" selected>12 cm</option>
+                <option value="180">18 cm</option>
+              </select></label
+            ><label
+              >Modo de color<select id="paletteMode">
+                <option value="digital">Paleta digital de la foto</option>
+                <option value="physical">Filamentos directos (hasta 9)</option>
+              </select></label
+            >
+            <div id="palettePanel" hidden>
+              <label
+                >Colores de filamento (HEX, separados por comas)<textarea
+                  id="physicalPalette"
+                  rows="3"
+                  spellcheck="false"
+                >
+#00B5DB, #DC1685, #F4D900, #222222, #FAFAFA, #B77B45, #E6BA90, #456B9B, #628B5A</textarea
+                ></label
+              ><small
+                >Valores ilustrativos. Sustitúyelos por colores medidos de tus filamentos. El primer
+                color se usa también en la base.</small
+              ><button class="secondary" id="applyPalette" type="button">Aplicar paleta</button>
+              <p id="paletteError" role="status" class="muted"></p>
+            </div>
+            <label
+              >Marco<select id="frame">
+                <option value="#292c29">Negro</option>
+                <option value="#f9f8ef">Blanco</option>
+                <option value="#a47b58">Arena</option>
+                <option value="#778b70">Verde</option>
+              </select></label
+            >
+            <div class="readout">
+              <strong id="quote"></strong><br /><small id="pitch"></small><br /><small
+                >Precio orientativo con IVA, sin envío. No es una oferta.</small
+              >
+            </div>
+            <button id="save" class="secondary">Guardar vista previa PNG</button
+            ><button id="exportPixel" type="button">Exportar modelo Pixel 3MF</button
+            ><button id="exportPixelStl" type="button" class="secondary">
+              Exportar piezas STL (ZIP)
+            </button>
+            <p id="exportStatus" role="status" class="muted"></p>
+          </div>
+        </div>
+        <p class="notice">
+          La paleta digital no representa colores físicos. Para fabricar, selecciona Filamentos
+          directos. El 3MF contiene piezas por color, no recetas de mezcla ni un perfil de Bambu
+          Studio. El marco de la vista previa no forma parte del modelo exportado.
+        </p>
+      </section>
+      <section id="multiview">
+        <h2>Dos imágenes, nuevas perspectivas</h2>
+        <div class="panel">
+          <canvas
+            id="multi"
+            class="mvcanvas"
+            width="620"
+            height="340"
+            aria-label="Simulación geométrica de una superficie con facetas"
+          ></canvas>
+          <div class="controls" style="margin-top: 16px">
+            <div class="workbench">
+              <label
+                >Imagen izquierda<input
+                  id="leftFile"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp" /></label
+              ><label
+                >Imagen derecha<input
+                  id="rightFile"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+              /></label>
+            </div>
+            <div class="workbench">
+              <label
+                >Crestas / columnas<select id="mvN">
+                  <option value="16">16</option>
+                  <option value="24" selected>24</option>
+                  <option value="32">32</option>
+                  <option value="48">48</option>
+                </select></label
+              ><label
+                >Ancho del relieve<select id="mvSize">
+                  <option value="100">100 mm</option>
+                  <option value="150" selected>150 mm</option>
+                  <option value="200">200 mm</option>
+                </select></label
+              >
+            </div>
+            <small
+              >MultiView usa la paleta de filamentos del apartado Pixel Art. Cada cresta tiene dos
+              caras a 45°.</small
+            ><label
+              >Ángulo de observación <span id="angleLabel">0°</span
+              ><input id="angle" type="range" min="-60" max="60" value="0"
+            /></label>
+            <div class="row">
+              <button class="secondary" data-angle="-45">Izquierda</button
+              ><button class="secondary" data-angle="0">Frontal</button
+              ><button class="secondary" data-angle="45">Derecha</button>
+            </div>
+          </div>
+          <p class="muted">
+            Proyección ortográfica de la geometría exportada, con oclusión por las crestas. Sin
+            simulación de luz o mezcla óptica. El frontal combina las dos imágenes.
+          </p>
+          <div class="row">
+            <button id="exportMulti" type="button">Exportar relieve 3MF</button
+            ><button id="exportMultiStl" type="button" class="secondary">
+              Exportar piezas STL (ZIP)
+            </button>
+          </div>
+          <p id="multiStatus" class="muted" role="status"></p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <strong>PIPI Studio · Laboratorio V3.4 de trabajo</strong>
+      <p>
+        Sin transacciones. Antes de publicar: verificar marca, datos legales, privacidad, seguridad
+        de productos y precios. Las imágenes seleccionadas se procesan localmente y no se envían a
+        ningún servidor.
+      </p>
+    </footer>
+    <script src="engine/color-engine.js"></script>
+    <script src="engine/geometry.js"></script>
+    <script src="engine/zip.js"></script>
+    <script src="engine/pricing.js"></script>
+    <script src="engine/studio.js"></script>
+  </body>
+</html>
