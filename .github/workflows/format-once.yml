@@ -1,0 +1,28 @@
+name: One-time Prettier formatting
+on:
+  push:
+    branches:
+      - chore/prettier-format
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm run format
+      - run: npm run format:check
+      - run: npm test
+      - name: Commit formatted source and lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine tests index.html color-lab.html package.json package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Apply Prettier formatting and lock dependencies"
+            git push origin HEAD:refs/heads/chore/prettier-format
+          fi
