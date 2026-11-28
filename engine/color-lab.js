@@ -93,6 +93,17 @@ function initColorLab(E, doc, platform) {
       }
     };
   }
+  function parseProfileJSON(text) {
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      if (!(error instanceof SyntaxError)) throw error;
+      throw Object.assign(Error('lab.json.invalid'), {
+        i18nParams: { detail: error.message },
+        cause: error,
+      });
+    }
+  }
   function setDB(v) {
     E.validateDB(v);
     db = v;
@@ -136,14 +147,14 @@ function initColorLab(E, doc, platform) {
     sync(id);
     status('dbStatus', 'lab.recipe.saved', { id });
   });
-  $('applyJSON').onclick = attempt('dbStatus', () => setDB(JSON.parse($('json').value)));
+  $('applyJSON').onclick = attempt('dbStatus', () => setDB(parseProfileJSON($('json').value)));
   $('importDB').onchange = async () => {
     const f = $('importDB').files[0];
     if (!f) return;
     try {
       if (f.size > 2e6) throw Error('error.lab.fileSize');
       if (platform.confirm(PipiI18n.translate('lab.profile.replace')))
-        setDB(JSON.parse(await f.text()));
+        setDB(parseProfileJSON(await f.text()));
     } catch (e) {
       PipiI18n.setError($('dbStatus'), e);
     } finally {

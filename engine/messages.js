@@ -400,6 +400,11 @@ const PipiMessages = {
     en: 'Advanced JSON editor: profile, add, remove and edit recipes',
     zh: '高级 JSON 编辑器：配置及配方增删改',
   },
+  'lab.json.invalid': {
+    es: 'Formato JSON no válido.\nDetalle técnico: {detail}',
+    en: 'Invalid JSON format.\nTechnical detail: {detail}',
+    zh: 'JSON 格式无效。\n技术细节：{detail}',
+  },
   'lab.json.apply': {
     es: 'Validar y aplicar JSON',
     en: 'Validate and apply JSON',
