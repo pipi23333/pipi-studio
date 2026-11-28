@@ -6,7 +6,7 @@ const PipiColor = (function createEngine() {
     cos = (x) => Math.cos(x * rad),
     clamp = (x, l, h) => Math.max(l, Math.min(h, x));
   function hexRGB(h) {
-    if (typeof h !== 'string' || !/^#[0-9a-f]{6}$/i.test(h)) throw Error('HEX inválido');
+    if (typeof h !== 'string' || !/^#[0-9a-f]{6}$/i.test(h)) throw Error("error.color.hex");
     return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
   }
   const hex = (rgb) =>
@@ -82,7 +82,7 @@ const PipiColor = (function createEngine() {
   const channels = ['C', 'M', 'Y', 'K', 'W'],
     surfaces = ['top', 'left45', 'right45', 'vertical'];
   function candidates(step = 10) {
-    if (![5, 10, 20, 25].includes(step)) throw Error('Paso inválido');
+    if (![5, 10, 20, 25].includes(step)) throw Error("error.color.step");
     const arr = channels.map((c) => ({
       id: c,
       filaments: [c],
@@ -140,7 +140,7 @@ const PipiColor = (function createEngine() {
       db.recipes.length < 1 ||
       db.recipes.length > 300
     ) {
-      throw Error('Esquema inválido (1–300 recetas)');
+      throw Error("error.color.schema");
     }
     const p = db.profile;
     const validId = (x, n) => typeof x === 'string' && x.length <= n && /^[A-Za-z0-9_-]+$/.test(x);
@@ -159,11 +159,11 @@ const PipiColor = (function createEngine() {
       p.layerMm <= 0 ||
       p.layerMm > p.nozzleMm
     ) {
-      throw Error('Perfil inválido: Lab D65/2°, material, impresora, boquilla y capa');
+      throw Error("error.color.profile");
     }
     const seen = new Set();
     for (const r of db.recipes) {
-      if (!r || !validId(r.id, 80) || seen.has(r.id)) throw Error('ID inválido o duplicado');
+      if (!r || !validId(r.id, 80) || seen.has(r.id)) throw Error("error.color.id");
       seen.add(r.id);
       if (
         !Array.isArray(r.filaments) ||
@@ -176,10 +176,10 @@ const PipiColor = (function createEngine() {
         r.ratios.some((x) => !Number.isFinite(x) || x <= 0 || x > 100) ||
         Math.abs(r.ratios.reduce((a, b) => a + b, 0) - 100) > 1e-6
       ) {
-        throw Error('Receta inválida: ' + r.id);
+        throw Object.assign(Error("error.color.recipe"),{i18nParams:{id:r.id}});
       }
       if (!['pending', 'illustrative', 'reference', 'measured'].includes(r.source)) {
-        throw Error('Origen inválido: ' + r.id);
+        throw Object.assign(Error("error.color.source"),{i18nParams:{id:r.id}});
       }
       if (
         r.source === 'pending'
@@ -191,23 +191,23 @@ const PipiColor = (function createEngine() {
             r.lab[0] > 100 ||
             r.lab.slice(1).some((x) => Math.abs(x) > 200)
       ) {
-        throw Error('Lab inválido: ' + r.id);
+        throw Object.assign(Error("error.color.lab"),{i18nParams:{id:r.id}});
       }
       if (r.source === 'measured' && (typeof r.notes !== 'string' || !r.notes.trim())) {
-        throw Error('Indica instrumento y condiciones de medición: ' + r.id);
+        throw Object.assign(Error("error.color.notes"),{i18nParams:{id:r.id}});
       }
     }
     return db;
   }
   function eligible(db, mode = 'measured') {
     validateDB(db);
-    if (!['measured', 'preview'].includes(mode)) throw Error('Modo inválido');
+    if (!['measured', 'preview'].includes(mode)) throw Error("error.color.mode");
     return db.recipes.filter(
       (r) => r.lab !== null && (mode === 'preview' || r.source === 'measured'),
     );
   }
   function best(target, recipes) {
-    if (!recipes.length) throw Error('No hay recetas elegibles');
+    if (!recipes.length) throw Error("error.color.noRecipes");
     let recipe = recipes[0],
       error = Infinity;
     for (const r of recipes) {
@@ -237,10 +237,10 @@ const PipiColor = (function createEngine() {
       width * height > 128 * 128 ||
       rgba.length !== width * height * 4
     ) {
-      throw Error('Dimensiones inválidas');
+      throw Error("error.color.dimensions");
     }
     const rs = eligible(db, mode);
-    if (!rs.length) throw Error('No hay colores medidos para este perfil');
+    if (!rs.length) throw Error("error.color.noMeasured");
     const out = new Uint8ClampedArray(rgba.length);
     const heat = new Uint8ClampedArray(rgba.length);
     const errors = [],
@@ -280,7 +280,7 @@ const PipiColor = (function createEngine() {
   }
   function layout(recipes, page = 1) {
     const pages = Math.ceil(recipes.length / 64);
-    if (!Number.isInteger(page) || page < 1 || page > pages) throw Error('Página inválida');
+    if (!Number.isInteger(page) || page < 1 || page > pages) throw Error("error.color.page");
     return {
       page,
       pages,
@@ -343,7 +343,7 @@ const PipiColor = (function createEngine() {
   }
   function couponSTL(thickness = 2) {
     if (!Number.isFinite(thickness) || thickness < 1 || thickness > 10)
-      throw Error('Espesor 1–10 mm');
+      throw Error("error.color.thickness");
     const v = [
         [0, 0, 0],
         [15, 0, 0],

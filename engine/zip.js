@@ -21,19 +21,19 @@ const PipiZip = (function zipFactory() {
     }
   }
   async function zip(files, { compress = deflateRaw } = {}) {
-    if (!Array.isArray(files) || files.length > 65535) throw Error('ZIP entry limit');
+    if (!Array.isArray(files) || files.length > 65535) throw Error("error.zip.entries");
     const parts = [],
       central = [],
       names = new Set();
     let offset = 0,
       cs = 0;
     for (const [name, raw] of files) {
-      if (typeof name !== 'string' || !name || names.has(name)) throw Error('Invalid ZIP entry');
+      if (typeof name !== 'string' || !name || names.has(name)) throw Error("error.zip.entry");
       names.add(name);
       const fn = encoder.encode(name),
         data = typeof raw === 'string' ? encoder.encode(raw) : raw;
       if (!(data instanceof Uint8Array) || fn.length > 65535 || data.length > 0xffffffff)
-        throw Error('ZIP32 size limit');
+        throw Error("error.zip.size");
       const crc = crc32(data);
       let packed = data,
         method = 0;
@@ -78,7 +78,7 @@ const PipiZip = (function zipFactory() {
       central.push(cen);
       offset += loc.length + packed.length;
       cs += cen.length;
-      if (offset + cs + 22 > 0xffffffff) throw Error('ZIP32 size limit');
+      if (offset + cs + 22 > 0xffffffff) throw Error("error.zip.size");
     }
     const end = new Uint8Array(22),
       e = new DataView(end.buffer);

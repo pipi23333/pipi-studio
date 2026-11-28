@@ -48,3 +48,6 @@ Chromium 中的图片导入、调色板编辑、角度滑块、PNG 下载、3MF 
 
 ### 浏览器语言推荐与翻译覆盖
 首次访问按 navigator.language（其次 navigator.languages）推荐语言，仍需用户确认，已保存语言及 URL 显式参数优先。语言弹层开启时 header/main/footer 使用 inert 和 aria-hidden，关闭恢复。CI 使用 HTML/JS 解析器收集页面可见文案、无障碍属性以及界面提示、确认框、异常和动态消息，验证英语与中文翻译。品牌名、数字和固定技术标识可显式豁免。新增界面消息应沿用现有显示入口。
+
+### 稳定语义 key
+翻译集中在 `engine/messages.js`，以 `pixel.export.3mf` 等稳定 key 索引三语文案。HTML 使用 `data-i18n` 与 `data-i18n-aria-label` 等属性；脚本使用 `PipiI18n.setText(element, key, params)`，参数使用 `{name}` 占位符。引擎错误以语义错误码和可选 `i18nParams` 传递，页面负责翻译。修改西语文案无需改 key 或其他语言。CI 校验三语缺项、参数一致性、HTML 未标记文案及脚本显示入口；用户输入及导出数据字段保持原样。
