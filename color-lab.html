@@ -295,18 +295,22 @@
           ><button type="button" data-language="en" lang="en">English</button
           ><button type="button" data-language="zh" lang="zh-CN">简体中文</button>
         </div>
-        <button id="languageCancel" data-i18n="language.cancel" type="button" hidden>Volver / Back / 返回</button
+        <button id="languageCancel" data-i18n="language.cancel" type="button" hidden>
+          Volver / Back / 返回</button
         ><noscript><p>Activa JavaScript / Enable JavaScript / 请启用 JavaScript</p></noscript>
       </div>
     </div>
     <header inert aria-hidden="true">
-      <strong>PIPI. STUDIO / R&amp;D</strong><a href="index.html" data-i18n="lab.nav.back">Volver a Pixel / MultiView</a>
+      <strong>PIPI. STUDIO / R&amp;D</strong
+      ><a href="index.html" data-i18n="lab.nav.back">Volver a Pixel / MultiView</a>
       <button id="languageSwitch" type="button">Idioma / Language / 语言</button>
     </header>
     <main inert aria-hidden="true">
       <p class="muted" data-i18n="lab.eyebrow">V3.1–V3.4 · LABORATORIO DE COLOR</p>
       <h1 data-i18n="lab.heading">Color Lab.</h1>
-      <p data-i18n="lab.description">De la fotografía a recetas de color verificables mediante CIEDE2000.</p>
+      <p data-i18n="lab.description">
+        De la fotografía a recetas de color verificables mediante CIEDE2000.
+      </p>
       <p class="notice" data-i18n="lab.prototype">
         Prototipo. No contiene mezclas H3C medidas ni instrucciones de laminado. Los colores de
         pantalla son aproximaciones; la geometría 3MF/STL original sigue usando filamentos directos.
@@ -316,18 +320,21 @@
         <p id="dbSummary" role="status"></p>
         <div class="grid">
           <label
-            ><span data-i18n="lab.ratio.step">Intervalo de proporciones (%)</span><select id="step">
+            ><span data-i18n="lab.ratio.step">Intervalo de proporciones (%)</span
+            ><select id="step">
               <option>5</option>
               <option selected>10</option>
               <option>20</option>
               <option>25</option>
             </select></label
           ><label
-            ><span data-i18n="lab.profile.import">Importar perfil JSON</span><input id="importDB" type="file" accept=".json,application/json"
+            ><span data-i18n="lab.profile.import">Importar perfil JSON</span
+            ><input id="importDB" type="file" accept=".json,application/json"
           /></label>
         </div>
         <div class="row">
-          <button id="generate" class="alt" data-i18n="lab.profile.new">Nuevo perfil pendiente</button
+          <button id="generate" class="alt" data-i18n="lab.profile.new">
+            Nuevo perfil pendiente</button
           ><button id="demo" class="alt" data-i18n="lab.profile.demo">Cargar ejemplo</button
           ><button id="exportDB" data-i18n="lab.profile.download">Descargar JSON</button>
         </div>
@@ -336,10 +343,14 @@
           boquilla y capa en el JSON antes de registrar resultados. D65 / observador 2°. Conserva un
           archivo separado por configuración.
         </p>
-        <label><span data-i18n="lab.recipe.label">Receta</span><select id="recipe"></select></label>
+        <label
+          ><span data-i18n="lab.recipe.label">Receta</span
+          ><select id="recipe"></select
+        ></label>
         <div class="grid">
           <label
-            ><span data-i18n="lab.source.label">Origen</span><select id="origin">
+            ><span data-i18n="lab.source.label">Origen</span
+            ><select id="origin">
               <option value="pending" data-i18n="lab.source.pending">Pendiente</option>
               <option value="illustrative" data-i18n="lab.source.illustrative">Ilustrativo</option>
               <option value="reference" data-i18n="lab.source.reference">Referencia</option>
@@ -348,13 +359,20 @@
           ><label>Lab (L*, a*, b*)<input id="labValue" placeholder="62.7, -42.1, 30.4" /></label>
         </div>
         <label
-          ><span data-i18n="lab.notes.label">Instrumento, lote, secuencia de capas, condiciones y notas</span><input
+          ><span data-i18n="lab.notes.label"
+            >Instrumento, lote, secuencia de capas, condiciones y notas</span
+          ><input
             id="notes"
-            placeholder="Instrumento / geometría / fondo / lote / fecha" data-i18n-placeholder="lab.notes.placeholder"
+            placeholder="Instrumento / geometría / fondo / lote / fecha"
+            data-i18n-placeholder="lab.notes.placeholder"
         /></label>
-        <div class="row"><button id="saveRecipe" data-i18n="lab.recipe.save">Guardar medición / referencia</button></div>
+        <div class="row">
+          <button id="saveRecipe" data-i18n="lab.recipe.save">Guardar medición / referencia</button>
+        </div>
         <details>
-          <summary data-i18n="lab.json.editor">Editor avanzado JSON: perfil, añadir, eliminar y modificar recetas</summary>
+          <summary data-i18n="lab.json.editor">
+            Editor avanzado JSON: perfil, añadir, eliminar y modificar recetas
+          </summary>
           <label>JSON<textarea id="json" rows="12" spellcheck="false"></textarea></label
           ><button id="applyJSON" data-i18n="lab.json.apply">Validar y aplicar JSON</button>
         </details>
@@ -364,21 +382,25 @@
         <h2 data-i18n="lab.analysis.heading">02 · Análisis de fotografía</h2>
         <div class="grid">
           <label
-            ><span data-i18n="lab.image.upload">Imagen local</span><input
-              id="photo"
-              type="file"
-              accept="image/png,image/jpeg,image/webp" /></label
+            ><span data-i18n="lab.image.upload">Imagen local</span
+            ><input id="photo" type="file" accept="image/png,image/jpeg,image/webp" /></label
           ><label
-            ><span data-i18n="common.resolution">Resolución</span><select id="resolution">
+            ><span data-i18n="common.resolution">Resolución</span
+            ><select id="resolution">
               <option>16</option>
               <option>32</option>
               <option selected>64</option>
               <option>128</option>
             </select></label
           ><label
-            ><span data-i18n="lab.recipe.set">Conjunto de recetas</span><select id="mode">
-              <option value="measured" selected data-i18n="lab.mode.measured">Solo mediciones</option>
-              <option value="preview" data-i18n="lab.mode.preview">Vista experimental (incluye ejemplos)</option>
+            ><span data-i18n="lab.recipe.set">Conjunto de recetas</span
+            ><select id="mode">
+              <option value="measured" selected data-i18n="lab.mode.measured">
+                Solo mediciones
+              </option>
+              <option value="preview" data-i18n="lab.mode.preview">
+                Vista experimental (incluye ejemplos)
+              </option>
             </select></label
           >
           <div class="row"><button id="analyze" data-i18n="lab.analyze">Analizar ΔE00</button></div>
@@ -408,7 +430,9 @@
         </p>
         <div class="row">
           <button id="downloadHeat" disabled data-i18n="lab.heat.download">PNG del error</button
-          ><button id="downloadMap" disabled data-i18n="lab.map.download">JSON del mapa de recetas</button>
+          ><button id="downloadMap" disabled data-i18n="lab.map.download">
+            JSON del mapa de recetas
+          </button>
         </div>
         <details>
           <summary data-i18n="lab.usage.heading">Uso de recetas</summary>
@@ -425,22 +449,21 @@
           Guía de muestras de 15 × 15 mm, 3 mm de separación y hasta 64 posiciones por hoja. No es
           una simulación óptica de mezclas pendientes.
         </p>
-        <label><span data-i18n="lab.chart.page">Hoja</span><select id="page"></select></label
+        <label
+          ><span data-i18n="lab.chart.page">Hoja</span
+          ><select id="page"></select></label
         ><img id="chart" alt="Carta digital de muestras numeradas" data-i18n-alt="lab.chart.alt" />
         <div class="row">
           <button id="downloadSVG" data-i18n="lab.chart.svg">SVG de esta hoja</button
           ><button id="downloadCSV" data-i18n="lab.chart.csv">CSV de todas las recetas</button>
         </div>
         <label
-          ><span data-i18n="lab.chart.thickness">Espesor de muestra (mm)</span><input
-            type="number"
-            id="thickness"
-            value="2"
-            min="1"
-            max="10"
-            step=".1"
+          ><span data-i18n="lab.chart.thickness">Espesor de muestra (mm)</span
+          ><input type="number" id="thickness" value="2" min="1" max="10" step=".1"
         /></label>
-        <div class="row"><button id="downloadSTL" data-i18n="lab.chart.stl">STL de muestra 15 × 15 mm</button></div>
+        <div class="row">
+          <button id="downloadSTL" data-i18n="lab.chart.stl">STL de muestra 15 × 15 mm</button>
+        </div>
         <p class="notice" data-i18n="lab.chart.notice">
           El STL es una muestra plana genérica sin asignación de material. Duplica e identifica cada
           pieza, configura las recetas admitidas en el laminador y verifica el orden de capas. Para
@@ -451,13 +474,15 @@
         <p id="chartStatus" role="status"></p>
       </section>
       <p class="muted">
-        <span data-i18n="lab.footer.notice">Todo se procesa en el navegador; no se envían imágenes ni datos de calibración. Descarga el
-        JSON para conservarlo antes de salir.</span>
+        <span data-i18n="lab.footer.notice"
+          >Todo se procesa en el navegador; no se envían imágenes ni datos de calibración. Descarga
+          el JSON para conservarlo antes de salir.</span
+        >
         <a href="tests/color-engine.test.cjs" data-i18n="lab.tests">Pruebas reproducibles</a>.
       </p>
     </main>
     <script src="engine/messages.js"></script>
-<script src="engine/i18n.js"></script>
+    <script src="engine/i18n.js"></script>
     <script src="engine/color-engine.js"></script>
     <script src="engine/color-lab.js"></script>
   </body>

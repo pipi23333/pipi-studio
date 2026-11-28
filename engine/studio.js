@@ -199,7 +199,7 @@ function parsePalette() {
     a.some((s) => !/^#[0-9A-F]{6}$/.test(s)) ||
     new Set(a).size !== a.length
   )
-    throw Error("error.palette.hex");
+    throw Error('error.palette.hex');
   return a;
 }
 function renderDigital() {
@@ -226,16 +226,16 @@ function renderDigital() {
     $('quote'),
     PipiPricing.base[s] + (m > PipiPricing.digitalThreshold ? PipiPricing.digitalExtra : 0),
   );
-  PipiI18n.setText(
-    $('pitch'),
-    'pixel.pitch.digital', {count:p.length,pitch:(s/n).toFixed(2)},
-  );
+  PipiI18n.setText($('pitch'), 'pixel.pitch.digital', {
+    count: p.length,
+    pitch: (s / n).toFixed(2),
+  });
 }
 function update() {
   if ($('paletteMode').value === 'digital') {
     renderDigital();
     $('exportPixel').disabled = $('exportPixelStl').disabled = true;
-    PipiI18n.setText($('exportStatus'), "pixel.export.selectPhysical");
+    PipiI18n.setText($('exportStatus'), 'pixel.export.selectPhysical');
     return;
   }
   const n = +$('res').value,
@@ -255,18 +255,13 @@ function update() {
     }),
   );
   PipiI18n.setPrice($('quote'), PipiPricing.base[s]);
-  PipiI18n.setText(
-    $('pitch'),
-    'pixel.pitch.physical', {count:used.length,pitch:(s/n).toFixed(2)},
-  );
+  PipiI18n.setText($('pitch'), 'pixel.pitch.physical', {
+    count: used.length,
+    pitch: (s / n).toFixed(2),
+  });
   const small = s / n < 0.6;
   $('exportPixel').disabled = $('exportPixelStl').disabled = small || exporting;
-  PipiI18n.setText(
-    $('exportStatus'),
-    small
-      ? "pixel.export.pitchSmall"
-      : "pixel.export.modelHint",
-  );
+  PipiI18n.setText($('exportStatus'), small ? 'pixel.export.pitchSmall' : 'pixel.export.modelHint');
 }
 function multiData() {
   const n = +$('mvN').value,
@@ -321,8 +316,7 @@ function drawMulti() {
 function buildPixel() {
   const n = +$('res').value,
     size = +$('size').value;
-  if ($('paletteMode').value !== 'physical' || size / n < 0.6)
-    throw Error("error.pixel.pitch");
+  if ($('paletteMode').value !== 'physical' || size / n < 0.6) throw Error('error.pixel.pitch');
   return PipiGeometry.buildPixel({
     n,
     size,
@@ -353,7 +347,7 @@ async function output(kind, format) {
   const buttons = ['exportPixel', 'exportPixelStl', 'exportMulti', 'exportMultiStl'].map($);
   buttons.forEach((b) => (b.disabled = true));
   try {
-    PipiI18n.setText(stat, "common.export.preparing");
+    PipiI18n.setText(stat, 'common.export.preparing');
     const ms = kind === 'pixel' ? buildPixel() : buildMulti(),
       name = 'pipi-' + kind;
     const files =
@@ -361,24 +355,16 @@ async function output(kind, format) {
         ? PipiGeometry.modelFiles(ms)
         : [
             ...ms.map((m) => [m.name + '.stl', PipiGeometry.stl(m)]),
-            [
-              'LEEME.txt',
-              PipiI18n.translate(
-                "common.export.stlInstructions",
-              ),
-            ],
+            ['LEEME.txt', PipiI18n.translate('common.export.stlInstructions')],
           ];
     const bytes = await PipiZip.zip(files);
     saveBlob(
       new Blob([bytes], { type: 'application/zip' }),
       name + (format === '3mf' ? '.3mf' : '-stl.zip'),
     );
-    PipiI18n.setText(
-      stat,
-      'common.export.generated',{count:ms.length},
-    );
+    PipiI18n.setText(stat, 'common.export.generated', { count: ms.length });
   } catch (e) {
-    PipiI18n.setError(stat,e,true);
+    PipiI18n.setError(stat, e, true);
   } finally {
     exporting = false;
     const blocked =
@@ -393,13 +379,13 @@ async function load(file) {
     !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) ||
     file.size > 15 * 1024 * 1024
   )
-    throw Error("error.image.format");
+    throw Error('error.image.format');
   let url = URL.createObjectURL(file);
   try {
     let i = new Image();
     i.src = url;
     await i.decode();
-    if (i.naturalWidth * i.naturalHeight > 30000000) throw Error("error.image.large");
+    if (i.naturalWidth * i.naturalHeight > 30000000) throw Error('error.image.large');
     return i;
   } finally {
     URL.revokeObjectURL(url);
@@ -411,10 +397,10 @@ $('upload').onchange = async (e) => {
     if (i) {
       source = i;
       update();
-      PipiI18n.setText($('pixelStatus'), "pixel.photo.ready");
+      PipiI18n.setText($('pixelStatus'), 'pixel.photo.ready');
     }
   } catch (err) {
-    PipiI18n.setError($('pixelStatus'),err);
+    PipiI18n.setError($('pixelStatus'), err);
   }
 };
 ['res', 'colors', 'size', 'frame'].forEach((id) => ($(id).onchange = update));
@@ -439,11 +425,11 @@ $('paletteMode').onchange = () => {
 $('applyPalette').onclick = () => {
   try {
     materialHex = parsePalette();
-    PipiI18n.setText($('paletteError'), "pixel.palette.applied");
+    PipiI18n.setText($('paletteError'), 'pixel.palette.applied');
     update();
     drawMulti();
   } catch (e) {
-    PipiI18n.setError($('paletteError'),e);
+    PipiI18n.setError($('paletteError'), e);
   }
 };
 $('angle').oninput = drawMulti;
@@ -466,10 +452,10 @@ document.querySelectorAll('[data-angle]').forEach(
           if (side === 'left') left = i;
           else right = i;
           drawMulti();
-          PipiI18n.setText($('multiStatus'), "multi.image.ready");
+          PipiI18n.setText($('multiStatus'), 'multi.image.ready');
         }
       } catch (err) {
-        PipiI18n.setError($('multiStatus'),err);
+        PipiI18n.setError($('multiStatus'), err);
       }
     }),
 );

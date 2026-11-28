@@ -24,7 +24,7 @@ function initColorLab(E, doc, platform) {
       const c = $(id);
       c.getContext('2d').clearRect(0, 0, c.width, c.height);
     }
-    status('stats', "lab.analysis.again");
+    status('stats', 'lab.analysis.again');
     status('usage', '');
   }
   function save(data, type, name) {
@@ -52,15 +52,22 @@ function initColorLab(E, doc, platform) {
   }
   function sync(selected) {
     const n = E.eligible(db).length;
-    status(
-      'dbSummary',
-      'lab.profile.summary',{id:db.profile.id,surface:PipiI18n.enumMessage('surface',db.profile.surface),count:db.recipes.length,measured:n},
-    );
+    status('dbSummary', 'lab.profile.summary', {
+      id: db.profile.id,
+      surface: PipiI18n.enumMessage('surface', db.profile.surface),
+      count: db.recipes.length,
+      measured: n,
+    });
     $('recipe').replaceChildren(
       ...db.recipes.map((r) =>
         option(
           r.id,
-          PipiI18n.message('lab.recipe.option',{id:r.id,filaments:r.filaments.join('+'),ratios:r.ratios.join(':'),source:PipiI18n.enumMessage('source',r.source)}),
+          PipiI18n.message('lab.recipe.option', {
+            id: r.id,
+            filaments: r.filaments.join('+'),
+            ratios: r.ratios.join(':'),
+            source: PipiI18n.enumMessage('source', r.source),
+          }),
         ),
       ),
     );
@@ -70,7 +77,7 @@ function initColorLab(E, doc, platform) {
     $('json').value = json(db);
     $('page').replaceChildren(
       ...Array.from({ length: Math.ceil(db.recipes.length / 64) }, (_, i) =>
-        option(String(i + 1), PipiI18n.message('lab.chart.pageNumber',{number:i+1})),
+        option(String(i + 1), PipiI18n.message('lab.chart.pageNumber', { number: i + 1 })),
       ),
     );
     $('page').value = '1';
@@ -82,7 +89,7 @@ function initColorLab(E, doc, platform) {
       try {
         return fn(...args);
       } catch (e) {
-        PipiI18n.setError($(id),e);
+        PipiI18n.setError($(id), e);
       }
     };
   }
@@ -90,15 +97,10 @@ function initColorLab(E, doc, platform) {
     E.validateDB(v);
     db = v;
     sync();
-    status('dbStatus', "lab.profile.valid");
+    status('dbStatus', 'lab.profile.valid');
   }
   $('generate').onclick = attempt('dbStatus', () => {
-    if (
-      !platform.confirm(
-        PipiI18n.translate("lab.profile.replaceWarning"),
-      )
-    )
-      return;
+    if (!platform.confirm(PipiI18n.translate('lab.profile.replaceWarning'))) return;
     setDB({
       version: 1,
       profile: {
@@ -111,7 +113,7 @@ function initColorLab(E, doc, platform) {
     });
   });
   $('demo').onclick = attempt('dbStatus', () => {
-    if (platform.confirm(PipiI18n.translate("lab.profile.replace"))) setDB(E.exampleDB());
+    if (platform.confirm(PipiI18n.translate('lab.profile.replace'))) setDB(E.exampleDB());
   });
   $('recipe').onchange = selectRecipe;
   $('origin').onchange = () => {
@@ -127,23 +129,23 @@ function initColorLab(E, doc, platform) {
       .value.split(',')
       .map((x) => x.trim());
     if (r.source !== 'pending' && (a.length !== 3 || a.some((x) => x === '')))
-      throw Error("error.lab.values");
+      throw Error('error.lab.values');
     r.lab = r.source === 'pending' ? null : a.map(Number);
     E.validateDB(v);
     db = v;
     sync(id);
-    status('dbStatus', 'lab.recipe.saved',{id});
+    status('dbStatus', 'lab.recipe.saved', { id });
   });
   $('applyJSON').onclick = attempt('dbStatus', () => setDB(JSON.parse($('json').value)));
   $('importDB').onchange = async () => {
     const f = $('importDB').files[0];
     if (!f) return;
     try {
-      if (f.size > 2e6) throw Error("error.lab.fileSize");
-      if (platform.confirm(PipiI18n.translate("lab.profile.replace")))
+      if (f.size > 2e6) throw Error('error.lab.fileSize');
+      if (platform.confirm(PipiI18n.translate('lab.profile.replace')))
         setDB(JSON.parse(await f.text()));
     } catch (e) {
-      PipiI18n.setError($('dbStatus'),e);
+      PipiI18n.setError($('dbStatus'), e);
     } finally {
       $('importDB').value = '';
     }
@@ -171,7 +173,7 @@ function initColorLab(E, doc, platform) {
     clearAnalysis();
     try {
       if (f.size > 15e6 || !['image/png', 'image/jpeg', 'image/webp'].includes(f.type))
-        throw Error("error.lab.imageFormat");
+        throw Error('error.lab.imageFormat');
       const u = platform.URL.createObjectURL(f);
       try {
         const next = new platform.Image();
@@ -180,12 +182,12 @@ function initColorLab(E, doc, platform) {
         if (mine !== token) return;
         img = next;
         drawTarget();
-        status('stats', "lab.image.ready");
+        status('stats', 'lab.image.ready');
       } finally {
         platform.URL.revokeObjectURL(u);
       }
     } catch (e) {
-      if (mine === token) PipiI18n.setError($('stats'),e);
+      if (mine === token) PipiI18n.setError($('stats'), e);
     }
   };
   $('resolution').onchange = () => {
@@ -196,7 +198,7 @@ function initColorLab(E, doc, platform) {
   $('analyze').onclick = attempt('stats', () => {
     clearAnalysis();
     const d = drawTarget();
-    if (!d) throw Error("error.lab.imageMissing");
+    if (!d) throw Error('error.lab.imageMissing');
     const n = d.width,
       r = E.mapImage(d.data, n, n, db, $('mode').value);
     for (const [id, p] of [
@@ -222,13 +224,20 @@ function initColorLab(E, doc, platform) {
       usage: r.usage,
     };
     const s = r.stats;
-    status(
-      'stats',
-      'lab.analysis.stats',{mean:s.mean.toFixed(2),p95:s.p95.toFixed(2),max:s.max.toFixed(2),under2:s.under2.toFixed(1),count:r.usage.length},
-    );
+    status('stats', 'lab.analysis.stats', {
+      mean: s.mean.toFixed(2),
+      p95: s.p95.toFixed(2),
+      max: s.max.toFixed(2),
+      under2: s.under2.toFixed(1),
+      count: r.usage.length,
+    });
     status(
       'usage',
-      PipiI18n.lines(r.usage.sort((a,b)=>b.count-a.count).map(x=>PipiI18n.message('lab.usage.line',{id:x.id,count:x.count}))),
+      PipiI18n.lines(
+        r.usage
+          .sort((a, b) => b.count - a.count)
+          .map((x) => PipiI18n.message('lab.usage.line', { id: x.id, count: x.count })),
+      ),
     );
     $('downloadHeat').disabled = $('downloadMap').disabled = false;
   });
@@ -253,7 +262,7 @@ function initColorLab(E, doc, platform) {
     save(E.chartCSV(db), 'text/csv;charset=utf-8', db.profile.id + '-samples.csv');
   $('downloadSTL').onclick = attempt('chartStatus', () => {
     save(E.couponSTL(+$('thickness').value), 'model/stl', 'pipi-coupon-15mm.stl');
-    status('chartStatus', "lab.chart.generated");
+    status('chartStatus', 'lab.chart.generated');
   });
   sync();
   return { getDB: () => db, getResult: () => result };

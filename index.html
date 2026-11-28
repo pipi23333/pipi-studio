@@ -396,15 +396,17 @@
           ><button type="button" data-language="en" lang="en">English</button
           ><button type="button" data-language="zh" lang="zh-CN">简体中文</button>
         </div>
-        <button id="languageCancel" data-i18n="language.cancel" type="button" hidden>Volver / Back / 返回</button
+        <button id="languageCancel" data-i18n="language.cancel" type="button" hidden>
+          Volver / Back / 返回</button
         ><noscript><p>Activa JavaScript / Enable JavaScript / 请启用 JavaScript</p></noscript>
       </div>
     </div>
     <header inert aria-hidden="true">
       <div class="brand">PIPI<span style="color: #71814f">.</span> STUDIO</div>
       <nav>
-        <a href="#colecciones" data-i18n="nav.collections">Colecciones</a><a href="#pixel" data-i18n="nav.customize">Personaliza</a
-        ><a href="#multiview">MultiView</a><a href="color-lab.html" data-i18n="nav.lab">Color Lab V3.4</a>
+        <a href="#colecciones" data-i18n="nav.collections">Colecciones</a
+        ><a href="#pixel" data-i18n="nav.customize">Personaliza</a><a href="#multiview">MultiView</a
+        ><a href="color-lab.html" data-i18n="nav.lab">Color Lab V3.4</a>
       </nav>
       <button id="languageSwitch" type="button">Idioma / Language / 语言</button>
     </header>
@@ -423,7 +425,13 @@
           <a class="button" href="#pixel" data-i18n="home.hero.cta">Prueba el personalizador</a>
         </div>
         <div class="hero-art">
-          <canvas id="hero" width="32" height="32" aria-label="Ilustración de ejemplo" data-i18n-aria-label="home.hero.alt"></canvas>
+          <canvas
+            id="hero"
+            width="32"
+            height="32"
+            aria-label="Ilustración de ejemplo"
+            data-i18n-aria-label="home.hero.alt"
+          ></canvas>
         </div>
       </div>
       <section id="colecciones">
@@ -432,19 +440,25 @@
           <article class="product">
             <div class="visual">▦</div>
             <h3 data-i18n="product.pixel.name">Pixel Art</h3>
-            <p class="muted" data-i18n="product.pixel.description">Retratos personalizados, cuadros y recuerdos.</p>
+            <p class="muted" data-i18n="product.pixel.description">
+              Retratos personalizados, cuadros y recuerdos.
+            </p>
             <a href="#pixel" data-i18n="product.pixel.cta">Probar · desde 19,90 €</a>
           </article>
           <article class="product">
             <div class="visual">A / B</div>
             <h3>MultiView</h3>
-            <p class="muted" data-i18n="product.multi.description">Dos imágenes en una superficie de relieve.</p>
+            <p class="muted" data-i18n="product.multi.description">
+              Dos imágenes en una superficie de relieve.
+            </p>
             <a href="#multiview" data-i18n="product.multi.cta">Explorar prototipo</a>
           </article>
           <article class="product">
             <div class="visual">INK</div>
             <h3 data-i18n="product.ink.name">Ink Art</h3>
-            <p class="muted" data-i18n="product.ink.description">Marcos y carcasas para tinta electrónica.</p>
+            <p class="muted" data-i18n="product.ink.description">
+              Marcos y carcasas para tinta electrónica.
+            </p>
             <small data-i18n="product.ink.research">En investigación</small>
           </article>
         </div>
@@ -458,63 +472,81 @@
                 id="pixelCanvas"
                 width="32"
                 height="32"
-                aria-label="Vista previa pixelada" data-i18n-aria-label="pixel.preview.alt"
+                aria-label="Vista previa pixelada"
+                data-i18n-aria-label="pixel.preview.alt"
               ></canvas>
             </div>
             <p class="muted" id="pixelStatus" role="status" data-i18n="pixel.example">
               Imagen de ejemplo. Tu foto se procesa en este navegador.
             </p>
-            <div id="swatches" class="swatches" aria-label="Paleta de colores" data-i18n-aria-label="pixel.palette.alt"></div>
+            <div
+              id="swatches"
+              class="swatches"
+              aria-label="Paleta de colores"
+              data-i18n-aria-label="pixel.palette.alt"
+            ></div>
           </div>
           <div class="controls">
             <label
-              ><span data-i18n="pixel.upload">Tu imagen (JPG, PNG, WebP)</span><input
-                id="upload"
-                type="file"
-                accept="image/jpeg,image/png,image/webp" /></label
+              ><span data-i18n="pixel.upload">Tu imagen (JPG, PNG, WebP)</span
+              ><input id="upload" type="file" accept="image/jpeg,image/png,image/webp" /></label
             ><label
-              ><span data-i18n="common.resolution">Resolución</span><select id="res">
+              ><span data-i18n="common.resolution">Resolución</span
+              ><select id="res">
                 <option value="16">16 × 16</option>
                 <option value="32" selected>32 × 32</option>
                 <option value="64">64 × 64</option>
                 <option value="128">128 × 128</option>
               </select></label
             ><label
-              ><span data-i18n="pixel.colors">Máximo de colores</span><select id="colors">
+              ><span data-i18n="pixel.colors">Máximo de colores</span
+              ><select id="colors">
                 <option>8</option>
                 <option selected>16</option>
                 <option>32</option>
                 <option>64</option>
               </select></label
             ><label
-              ><span data-i18n="pixel.size">Tamaño</span><select id="size">
+              ><span data-i18n="pixel.size">Tamaño</span
+              ><select id="size">
                 <option value="60">6 cm</option>
                 <option value="120" selected>12 cm</option>
                 <option value="180">18 cm</option>
               </select></label
             ><label
-              ><span data-i18n="pixel.mode">Modo de color</span><select id="paletteMode">
-                <option value="digital" data-i18n="pixel.mode.digital">Paleta digital de la foto</option>
-                <option value="physical" data-i18n="pixel.mode.physical">Filamentos directos (hasta 9)</option>
+              ><span data-i18n="pixel.mode">Modo de color</span
+              ><select id="paletteMode">
+                <option value="digital" data-i18n="pixel.mode.digital">
+                  Paleta digital de la foto
+                </option>
+                <option value="physical" data-i18n="pixel.mode.physical">
+                  Filamentos directos (hasta 9)
+                </option>
               </select></label
             >
             <div id="palettePanel" hidden>
               <label
-                ><span data-i18n="pixel.palette.input">Colores de filamento (HEX, separados por comas)</span><textarea
-                  id="physicalPalette"
-                  rows="3"
-                  spellcheck="false"
-                >
+                ><span data-i18n="pixel.palette.input"
+                  >Colores de filamento (HEX, separados por comas)</span
+                ><textarea id="physicalPalette" rows="3" spellcheck="false">
 #00B5DB, #DC1685, #F4D900, #222222, #FAFAFA, #B77B45, #E6BA90, #456B9B, #628B5A</textarea
                 ></label
-              ><small
-                 data-i18n="pixel.palette.hint">Valores ilustrativos. Sustitúyelos por colores medidos de tus filamentos. El primer
+              ><small data-i18n="pixel.palette.hint"
+                >Valores ilustrativos. Sustitúyelos por colores medidos de tus filamentos. El primer
                 color se usa también en la base.</small
-              ><button class="secondary" id="applyPalette" type="button" data-i18n="pixel.palette.apply">Aplicar paleta</button>
+              ><button
+                class="secondary"
+                id="applyPalette"
+                type="button"
+                data-i18n="pixel.palette.apply"
+              >
+                Aplicar paleta
+              </button>
               <p id="paletteError" role="status" class="muted"></p>
             </div>
             <label
-              ><span data-i18n="pixel.frame">Marco</span><select id="frame">
+              ><span data-i18n="pixel.frame">Marco</span
+              ><select id="frame">
                 <option value="#292c29" data-i18n="pixel.frame.black">Negro</option>
                 <option value="#f9f8ef" data-i18n="pixel.frame.white">Blanco</option>
                 <option value="#a47b58" data-i18n="pixel.frame.sand">Arena</option>
@@ -523,12 +555,20 @@
             >
             <div class="readout">
               <strong id="quote"></strong><br /><small id="pitch"></small><br /><small
-                 data-i18n="pixel.price.hint">Precio orientativo con IVA, sin envío. No es una oferta.</small
+                data-i18n="pixel.price.hint"
+                >Precio orientativo con IVA, sin envío. No es una oferta.</small
               >
             </div>
-            <button id="save" class="secondary" data-i18n="pixel.save">Guardar vista previa PNG</button
-            ><button id="exportPixel" type="button" data-i18n="pixel.export.3mf">Exportar modelo Pixel 3MF</button
-            ><button id="exportPixelStl" type="button" class="secondary" data-i18n="common.export.stl">
+            <button id="save" class="secondary" data-i18n="pixel.save">
+              Guardar vista previa PNG</button
+            ><button id="exportPixel" type="button" data-i18n="pixel.export.3mf">
+              Exportar modelo Pixel 3MF</button
+            ><button
+              id="exportPixelStl"
+              type="button"
+              class="secondary"
+              data-i18n="common.export.stl"
+            >
               Exportar piezas STL (ZIP)
             </button>
             <p id="exportStatus" role="status" class="muted"></p>
@@ -548,43 +588,43 @@
             class="mvcanvas"
             width="620"
             height="340"
-            aria-label="Simulación geométrica de una superficie con facetas" data-i18n-aria-label="multi.preview.alt"
+            aria-label="Simulación geométrica de una superficie con facetas"
+            data-i18n-aria-label="multi.preview.alt"
           ></canvas>
           <div class="controls" style="margin-top: 16px">
             <div class="workbench">
               <label
-                ><span data-i18n="multi.left.upload">Imagen izquierda</span><input
-                  id="leftFile"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp" /></label
+                ><span data-i18n="multi.left.upload">Imagen izquierda</span
+                ><input id="leftFile" type="file" accept="image/jpeg,image/png,image/webp" /></label
               ><label
-                ><span data-i18n="multi.right.upload">Imagen derecha</span><input
-                  id="rightFile"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
+                ><span data-i18n="multi.right.upload">Imagen derecha</span
+                ><input id="rightFile" type="file" accept="image/jpeg,image/png,image/webp"
               /></label>
             </div>
             <div class="workbench">
               <label
-                ><span data-i18n="multi.columns">Crestas / columnas</span><select id="mvN">
+                ><span data-i18n="multi.columns">Crestas / columnas</span
+                ><select id="mvN">
                   <option value="16">16</option>
                   <option value="24" selected>24</option>
                   <option value="32">32</option>
                   <option value="48">48</option>
                 </select></label
               ><label
-                ><span data-i18n="multi.width">Ancho del relieve</span><select id="mvSize">
+                ><span data-i18n="multi.width">Ancho del relieve</span
+                ><select id="mvSize">
                   <option value="100">100 mm</option>
                   <option value="150" selected>150 mm</option>
                   <option value="200">200 mm</option>
                 </select></label
               >
             </div>
-            <small
-               data-i18n="multi.palette.hint">MultiView usa la paleta de filamentos del apartado Pixel Art. Cada cresta tiene dos
+            <small data-i18n="multi.palette.hint"
+              >MultiView usa la paleta de filamentos del apartado Pixel Art. Cada cresta tiene dos
               caras a 45°.</small
             ><label
-              ><span data-i18n="multi.angle">Ángulo de observación</span> <span id="angleLabel">0°</span
+              ><span data-i18n="multi.angle">Ángulo de observación</span>
+              <span id="angleLabel">0°</span
               ><input id="angle" type="range" min="-60" max="60" value="0"
             /></label>
             <div class="row">
@@ -598,8 +638,14 @@
             simulación de luz o mezcla óptica. El frontal combina las dos imágenes.
           </p>
           <div class="row">
-            <button id="exportMulti" type="button" data-i18n="multi.export.3mf">Exportar relieve 3MF</button
-            ><button id="exportMultiStl" type="button" class="secondary" data-i18n="common.export.stl">
+            <button id="exportMulti" type="button" data-i18n="multi.export.3mf">
+              Exportar relieve 3MF</button
+            ><button
+              id="exportMultiStl"
+              type="button"
+              class="secondary"
+              data-i18n="common.export.stl"
+            >
               Exportar piezas STL (ZIP)
             </button>
           </div>
@@ -616,7 +662,7 @@
       </p>
     </footer>
     <script src="engine/messages.js"></script>
-<script src="engine/i18n.js"></script>
+    <script src="engine/i18n.js"></script>
     <script src="engine/color-engine.js"></script>
     <script src="engine/geometry.js"></script>
     <script src="engine/zip.js"></script>

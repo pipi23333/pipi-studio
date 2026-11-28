@@ -44,7 +44,7 @@ const PipiGeometry = (function () {
       colors.length > 9 ||
       colors.some((h) => typeof h !== 'string' || !/^#[0-9A-F]{6}$/i.test(h))
     )
-      throw Error("error.geometry.palette");
+      throw Error('error.geometry.palette');
   }
   function checkGrid(ids, n, rows, colors) {
     if (
@@ -58,13 +58,12 @@ const PipiGeometry = (function () {
       ids.length !== n * rows ||
       Array.from(ids).some((id) => !Number.isInteger(id) || id < 0 || id >= colors.length)
     )
-      throw Error("error.geometry.grid");
+      throw Error('error.geometry.grid');
   }
   function buildPixel({ n, size, ids, colors }) {
     checkPalette(colors);
     checkGrid(ids, n, n, colors);
-    if (!Number.isFinite(size) || size / n < 0.6 || size > 330)
-      throw Error("error.geometry.pitch");
+    if (!Number.isFinite(size) || size / n < 0.6 || size > 330) throw Error('error.geometry.pitch');
     const p = size / n,
       ms = meshSet(colors);
     rect(ms[0], 0, size, 0, size, 0, 1.6);
@@ -83,7 +82,7 @@ const PipiGeometry = (function () {
     checkGrid(left, n, rows, colors);
     checkGrid(right, n, rows, colors);
     if (!Number.isFinite(w) || !Number.isFinite(h) || w <= 0 || h <= 0 || w > 330 || h > 320)
-      throw Error("error.geometry.dimensions");
+      throw Error('error.geometry.dimensions');
     const ms = meshSet(colors),
       p = w / n,
       r = h / rows,

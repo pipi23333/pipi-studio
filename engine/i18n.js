@@ -9,39 +9,58 @@ const PipiI18n = (function createI18n(messages) {
     mounted = false;
   const locale = () => ({ es: 'es-ES', en: 'en-GB', zh: 'zh-CN' })[language];
   // Keys are independent of every locale's wording. Unknown keys fail visibly.
-  const parameters = text => [...new Set([...text.matchAll(/\{([a-zA-Z][a-zA-Z0-9_]*)\}/g)].map(m=>m[1]))].sort();
+  const parameters = (text) =>
+    [...new Set([...text.matchAll(/\{([a-zA-Z][a-zA-Z0-9_]*)\}/g)].map((m) => m[1]))].sort();
   function hasTranslation(key, lang) {
-    return Object.hasOwn(messages,key) && typeof messages[key][lang]==='string' && messages[key][lang].trim().length>0;
+    return (
+      Object.hasOwn(messages, key) &&
+      typeof messages[key][lang] === 'string' &&
+      messages[key][lang].trim().length > 0
+    );
   }
-  function message(key, params = {}) {return {key, params};}
+  function message(key, params = {}) {
+    return { key, params };
+  }
   function enumMessage(namespace, value) {
-    const allowed = {source:['pending','illustrative','reference','measured'],surface:['top','left45','right45','vertical']};
-    if(!allowed[namespace]?.includes(value))throw Error('Unknown translation enum: '+namespace);
-    return message(namespace+'.'+value);
+    const allowed = {
+      source: ['pending', 'illustrative', 'reference', 'measured'],
+      surface: ['top', 'left45', 'right45', 'vertical'],
+    };
+    if (!allowed[namespace]?.includes(value)) throw Error('Unknown translation enum: ' + namespace);
+    return message(namespace + '.' + value);
   }
-  function lines(items) {return {items};}
-  function render(value, lang=language) {
-    if(Array.isArray(value?.items))return value.items.map(v=>render(v,lang)).join('\n');
-    if(value && typeof value==='object' && Object.hasOwn(value,'key'))return translate(value.key,value.params,lang);
-    return String(value??'');
+  function lines(items) {
+    return { items };
   }
-  function translate(key, params={}, lang=language) {
-    if(!hasTranslation(key,lang))return '[missing: '+key+']';
-    return messages[key][lang].replace(/\{([a-zA-Z][a-zA-Z0-9_]*)\}/g,(_,name)=>Object.hasOwn(params,name)?render(params[name],lang):'[missing parameter: '+name+']');
+  function render(value, lang = language) {
+    if (Array.isArray(value?.items)) return value.items.map((v) => render(v, lang)).join('\n');
+    if (value && typeof value === 'object' && Object.hasOwn(value, 'key'))
+      return translate(value.key, value.params, lang);
+    return String(value ?? '');
+  }
+  function translate(key, params = {}, lang = language) {
+    if (!hasTranslation(key, lang)) return '[missing: ' + key + ']';
+    return messages[key][lang].replace(/\{([a-zA-Z][a-zA-Z0-9_]*)\}/g, (_, name) =>
+      Object.hasOwn(params, name)
+        ? render(params[name], lang)
+        : '[missing parameter: ' + name + ']',
+    );
   }
   function errorMessage(error) {
-    if(error && hasTranslation(error.message,'es'))return message(error.message,error.i18nParams||{});
-    return String(error?.message??error??'');
+    if (error && hasTranslation(error.message, 'es'))
+      return message(error.message, error.i18nParams || {});
+    return String(error?.message ?? error ?? '');
   }
-  function setText(el, key, params={}) {
-    const value=typeof key==='string'&&key!==''?message(key,params):key;
-    dynamic.set(el,()=>render(value));
-    el.textContent=render(value);
+  function setText(el, key, params = {}) {
+    const value = typeof key === 'string' && key !== '' ? message(key, params) : key;
+    dynamic.set(el, () => render(value));
+    el.textContent = render(value);
   }
-  function setError(el,error,withPrefix=false) {
-    const value=errorMessage(error);
-    const msg=withPrefix?message('error.generic',{detail:value}):value;
-    dynamic.set(el,()=>render(msg));el.textContent=render(msg);
+  function setError(el, error, withPrefix = false) {
+    const value = errorMessage(error);
+    const msg = withPrefix ? message('error.generic', { detail: value }) : value;
+    dynamic.set(el, () => render(msg));
+    el.textContent = render(msg);
   }
   function setPrice(el, amount) {
     const render = () =>
@@ -52,8 +71,8 @@ const PipiI18n = (function createI18n(messages) {
   function apply(lang) {
     if (!valid(lang)) throw Error('Unsupported language');
     language = lang;
-    for(const [el,key] of staticNodes)el.textContent=translate(key);
-    for(const [el,attr,key] of attributes)el.setAttribute(attr,translate(key));
+    for (const [el, key] of staticNodes) el.textContent = translate(key);
+    for (const [el, attr, key] of attributes) el.setAttribute(attr, translate(key));
     for (const [el, render] of dynamic) {
       if (el.isConnected === false) {
         dynamic.delete(el);
@@ -95,8 +114,13 @@ const PipiI18n = (function createI18n(messages) {
         else el.removeAttribute('aria-hidden');
       }
     }
-    staticNodes=[...doc.querySelectorAll('[data-i18n]')].map(el=>[el,el.getAttribute('data-i18n')]);
-    for(const attr of ['aria-label','alt','placeholder','title'])for(const el of doc.querySelectorAll('[data-i18n-'+attr+']'))attributes.push([el,attr,el.getAttribute('data-i18n-'+attr)]);
+    staticNodes = [...doc.querySelectorAll('[data-i18n]')].map((el) => [
+      el,
+      el.getAttribute('data-i18n'),
+    ]);
+    for (const attr of ['aria-label', 'alt', 'placeholder', 'title'])
+      for (const el of doc.querySelectorAll('[data-i18n-' + attr + ']'))
+        attributes.push([el, attr, el.getAttribute('data-i18n-' + attr)]);
     let selected = false,
       previousFocus = null;
     const buttons = [...gate.querySelectorAll('[data-language]')];
@@ -184,7 +208,7 @@ const PipiI18n = (function createI18n(messages) {
     errorMessage,
     setError,
     parameters,
-    catalog:messages,
+    catalog: messages,
     setText,
     setPrice,
     apply,
@@ -194,6 +218,7 @@ const PipiI18n = (function createI18n(messages) {
     hasTranslation,
     mount,
   };
-})(typeof module!=='undefined'?require('./messages.js'):PipiMessages);
-if(typeof module!=='undefined')module.exports=PipiI18n;
-if(typeof document!=='undefined'&&typeof window!=='undefined')PipiI18n.mount(document,window);
+})(typeof module !== 'undefined' ? require('./messages.js') : PipiMessages);
+if (typeof module !== 'undefined') module.exports = PipiI18n;
+if (typeof document !== 'undefined' && typeof window !== 'undefined')
+  PipiI18n.mount(document, window);
