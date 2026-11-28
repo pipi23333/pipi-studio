@@ -1,0 +1,29 @@
+name: Format language improvements
+on:
+  push:
+    branches:
+      - fix/language-preference-coverage
+permissions:
+  contents: write
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --save-dev --save-exact acorn@8.15.0 parse5@7.3.0
+      - run: npm run format
+      - run: npm run format
+      - run: npm run format:check
+      - run: npm test
+      - name: Commit formatted files and lockfile
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add engine tests index.html color-lab.html package.json package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Format language coverage and lock parser dependencies"
+            git push origin HEAD:refs/heads/fix/language-preference-coverage
+          fi

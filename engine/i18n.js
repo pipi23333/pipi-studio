@@ -98,6 +98,20 @@ const PipiI18n = (function createI18n(rows) {
     } catch {}
     return null;
   }
+  // Browser preference is a recommendation, never an explicit saved choice.
+  function recommendLanguage(navigator = {}) {
+    for (const tag of [navigator.language, ...(navigator.languages || [])]) {
+      const language = typeof tag === 'string' ? tag.toLowerCase().split(/[-_]/)[0] : '';
+      if (valid(language)) return language;
+    }
+    return 'es';
+  }
+  function hasTranslation(source, lang) {
+    if (!['en','zh'].includes(lang)) return false;
+    const entry = translations.get(source);
+    if (entry) return typeof entry[lang] === 'string' && entry[lang].trim().length > 0;
+    return translate(source, lang) !== source;
+  }
   function mount(doc, platform) {
     if (mounted) return;
     mounted = true;
@@ -105,6 +119,14 @@ const PipiI18n = (function createI18n(rows) {
       switcher = doc.getElementById('languageSwitch'),
       cancel = doc.getElementById('languageCancel');
     const page = [...doc.querySelectorAll('body > header, body > main, body > footer')];
+    const recommendation = doc.getElementById('languageRecommendation');
+    function setBackgroundHidden(hidden) {
+      for (const el of page) {
+        el.inert = hidden;
+        if (hidden) el.setAttribute('aria-hidden', 'true');
+        else el.removeAttribute('aria-hidden');
+      }
+    }
     const walker = doc.createTreeWalker(doc.body, 4);
     let node;
     while ((node = walker.nextNode())) {
@@ -128,7 +150,7 @@ const PipiI18n = (function createI18n(rows) {
     function close() {
       gate.hidden = true;
       doc.body.removeAttribute('data-language-pending');
-      for (const el of page) el.inert = false;
+      setBackgroundHidden(false);
       if (previousFocus?.isConnected && previousFocus !== doc.body) previousFocus.focus();
       else switcher.focus();
     }
@@ -137,8 +159,19 @@ const PipiI18n = (function createI18n(rows) {
       gate.hidden = false;
       cancel.hidden = !selected;
       doc.body.setAttribute('data-language-pending', '');
-      for (const el of page) el.inert = true;
+      for (const b of buttons) {
+        if (b.dataset.language === language) b.setAttribute('data-recommended', '');
+        else b.removeAttribute('data-recommended');
+      }
+      recommendation.hidden = selected;
+      recommendation.textContent = {
+        es: 'Recomendado según tu navegador: Español',
+        en: 'Recommended for your browser: English',
+        zh: '根据浏览器语言推荐：简体中文',
+      }[language];
+      recommendation.lang = language === 'zh' ? 'zh-CN' : language;
       buttons.find((b) => b.dataset.language === language)?.focus();
+      setBackgroundHidden(true);
     }
     function select(lang) {
       selected = true;
@@ -193,9 +226,12 @@ const PipiI18n = (function createI18n(rows) {
       selected = true;
       apply(initial);
       close();
-    } else open();
+    } else {
+      apply(recommendLanguage(platform.navigator));
+      open();
+    }
   }
-  return { translate, setText, setPrice, apply, locale, chooseInitial, mount };
+  return { translate, setText, setPrice, apply, locale, chooseInitial, recommendLanguage, hasTranslation, mount };
 })([
   ['PIPI Studio · Laboratorio V2', 'PIPI Studio · Creative Lab', 'PIPI Studio · 创意实验室'],
   ['PIPI Color Lab 3.4', 'PIPI Color Lab 3.4', 'PIPI 色彩实验室 3.4'],

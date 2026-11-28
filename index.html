@@ -373,14 +373,16 @@
       header {
         flex-wrap: wrap;
       }
-    </style>
+    #languageRecommendation {font-size: 13px; font-weight: 600; color: #52613d;}
+.language-options button[data-recommended] {outline: 2px solid #71814f; outline-offset: 3px;}
+</style>
   </head>
   <body data-language-pending="">
     <div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="languageTitle">
       <div class="language-card">
         <div class="language-brand">PIPI. STUDIO</div>
         <h2 id="languageTitle">Choose your language</h2>
-        <p>Selecciona tu idioma · 请选择语言</p>
+        <p>Selecciona tu idioma · 请选择语言</p><p id="languageRecommendation" aria-live="polite"></p>
         <div class="language-options">
           <button type="button" data-language="es" lang="es">Español</button
           ><button type="button" data-language="en" lang="en">English</button
@@ -390,7 +392,7 @@
         ><noscript><p>Activa JavaScript / Enable JavaScript / 请启用 JavaScript</p></noscript>
       </div>
     </div>
-    <header>
+    <header inert aria-hidden="true">
       <div class="brand">PIPI<span style="color: #71814f">.</span> STUDIO</div>
       <nav>
         <a href="#colecciones">Colecciones</a><a href="#pixel">Personaliza</a
@@ -398,7 +400,7 @@
       </nav>
       <button id="languageSwitch" type="button">Idioma / Language / 语言</button>
     </header>
-    <main>
+    <main inert aria-hidden="true">
       <div class="notice">
         Laboratorio V2 · Vista previa y archivos de prueba. No admite pedidos, pagos ni envíos. Los
         precios son orientativos.
@@ -597,7 +599,7 @@
         </div>
       </section>
     </main>
-    <footer>
+    <footer inert aria-hidden="true">
       <strong>PIPI Studio · Laboratorio V3.4 de trabajo</strong>
       <p>
         Sin transacciones. Antes de publicar: verificar marca, datos legales, privacidad, seguridad

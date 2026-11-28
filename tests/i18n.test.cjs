@@ -28,3 +28,14 @@ assert.match(
 );
 assert.equal(I.translate('unmapped user data', 'zh'), 'unmapped user data');
 console.log('Language preference and translations passed');
+
+assert.equal(I.recommendLanguage({language:'zh-Hant-TW'}),'zh');
+assert.equal(I.recommendLanguage({language:'en-US'}),'en');
+assert.equal(I.recommendLanguage({language:'es-MX'}),'es');
+assert.equal(I.recommendLanguage({language:'fr-FR',languages:['fr-FR','en-GB']}),'en');
+assert.equal(I.recommendLanguage({language:'de-DE'}),'es');
+assert.equal(I.recommendLanguage({}),'es');
+assert.equal(I.chooseInitial('?lang=es',{getItem:()=> 'zh'}),'es');
+assert.equal(I.hasTranslation('Invalid palette','en'),true);
+assert.equal(I.hasTranslation('Nueva frase sin traducción','en'),false);
+assert.equal(I.hasTranslation('Nueva frase sin traducción','zh'),false);

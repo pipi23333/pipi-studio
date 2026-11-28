@@ -45,3 +45,6 @@ Chromium 中的图片导入、调色板编辑、角度滑块、PNG 下载、3MF 
 
 ## 三语界面
 首次进入主页或 Color Lab 会显示语言选择（Español / English / 简体中文）。语言保存在浏览器本地，页面顶部可随时更改，无需刷新，保留当前输入及图片。支持 `?lang=es`、`?lang=en`、`?lang=zh` 链接。JSON 配方结构、内部编号及制造模型格式保持不变。
+
+### 浏览器语言推荐与翻译覆盖
+首次访问按 navigator.language（其次 navigator.languages）推荐语言，仍需用户确认，已保存语言及 URL 显式参数优先。语言弹层开启时 header/main/footer 使用 inert 和 aria-hidden，关闭恢复。CI 使用 HTML/JS 解析器收集页面可见文案、无障碍属性以及界面提示、确认框、异常和动态消息，验证英语与中文翻译。品牌名、数字和固定技术标识可显式豁免。新增界面消息应沿用现有显示入口。
