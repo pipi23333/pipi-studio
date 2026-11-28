@@ -39,7 +39,10 @@ const app = new Function(
   'PipiColor',
   'document',
   'window',
-  source.replace(/initColorLab\(PipiColor, document, window\);\s*$/, 'return initColorLab(PipiColor, document, window);'),
+  source.replace(
+    /initColorLab\(PipiColor, document, window\);\s*$/,
+    'return initColorLab(PipiColor, document, window);',
+  ),
 )(I, E, doc, platform);
 const $ = doc.getElementById;
 const titles = {
@@ -87,7 +90,9 @@ async function run() {
   $('importDB').files = [{ size: original.length, text: async () => original }];
   await $('importDB').onchange();
   assert.equal($('dbStatus').textContent, I.translate('lab.profile.valid'));
-  console.log('Localized JSON errors: paste/import, three languages, live switch, schema and recovery passed');
+  console.log(
+    'Localized JSON errors: paste/import, three languages, live switch, schema and recovery passed',
+  );
 }
 run().catch((error) => {
   console.error(error);
