@@ -42,3 +42,6 @@ Chromium 中的图片导入、调色板编辑、角度滑块、PNG 下载、3MF 
 - Node 22+：npm test（不需安装依赖）；npm install 后可 npm run format 或 npm run format:check。GitHub Actions 自动执行测试。
 - Cloudflare Pages _headers 安全头仅在部署平台支持时生效；图片本地处理、Blob 下载及样式保留；上线前检查实际浏览器响应头。
 - 制造测试检查索引边闭合和方向、正体积、预期总量及 STL 长度。相邻棱柱仍可能有共享面，不能据此宣称已完成布尔并集或切片认证。
+
+## 三语界面
+首次进入主页或 Color Lab 会显示语言选择（Español / English / 简体中文）。语言保存在浏览器本地，页面顶部可随时更改，无需刷新，保留当前输入及图片。支持 `?lang=es`、`?lang=en`、`?lang=zh` 链接。JSON 配方结构、内部编号及制造模型格式保持不变。

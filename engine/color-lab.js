@@ -9,12 +9,12 @@ function initColorLab(E, doc, platform) {
     token = 0;
   const json = (v) => JSON.stringify(v, null, 2);
   function status(id, v) {
-    $(id).textContent = v;
+    PipiI18n.setText($(id), v);
   }
   function option(value, label) {
     const el = doc.createElement('option');
     el.value = value;
-    el.textContent = label;
+    PipiI18n.setText(el, label);
     return el;
   }
   function clearAnalysis() {
@@ -100,7 +100,7 @@ function initColorLab(E, doc, platform) {
     status('dbStatus', 'Perfil validado. Descarga JSON para conservarlo.');
   }
   $('generate').onclick = attempt('dbStatus', () => {
-    if (!platform.confirm('¿Sustituir el perfil actual? Descarga antes tus mediciones.')) return;
+    if (!platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual? Descarga antes tus mediciones.'))) return;
     setDB({
       version: 1,
       profile: {
@@ -113,7 +113,7 @@ function initColorLab(E, doc, platform) {
     });
   });
   $('demo').onclick = attempt('dbStatus', () => {
-    if (platform.confirm('¿Sustituir el perfil actual?')) setDB(E.exampleDB());
+    if (platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual?'))) setDB(E.exampleDB());
   });
   $('recipe').onchange = selectRecipe;
   $('origin').onchange = () => {
@@ -142,7 +142,7 @@ function initColorLab(E, doc, platform) {
     if (!f) return;
     try {
       if (f.size > 2e6) throw Error('Archivo demasiado grande (2 MB)');
-      if (platform.confirm('¿Sustituir el perfil actual?')) setDB(JSON.parse(await f.text()));
+      if (platform.confirm(PipiI18n.translate('¿Sustituir el perfil actual?'))) setDB(JSON.parse(await f.text()));
     } catch (e) {
       status('dbStatus', e.message);
     } finally {

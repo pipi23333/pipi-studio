@@ -222,19 +222,14 @@ function renderDigital() {
       return e;
     }),
   );
-  $('quote').textContent = new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(
-    PipiPricing.base[s] + (m > PipiPricing.digitalThreshold ? PipiPricing.digitalExtra : 0),
-  );
-  $('pitch').textContent = `${p.length} colores digitales · ${(s / n).toFixed(2)} mm por píxel`;
+  PipiI18n.setPrice($('quote'), PipiPricing.base[s] + (m > PipiPricing.digitalThreshold ? PipiPricing.digitalExtra : 0));
+  PipiI18n.setText($('pitch'), `${p.length} colores digitales · ${(s / n).toFixed(2)} mm por píxel`);
 }
 function update() {
   if ($('paletteMode').value === 'digital') {
     renderDigital();
     $('exportPixel').disabled = $('exportPixelStl').disabled = true;
-    $('exportStatus').textContent = 'Selecciona Filamentos directos para exportar.';
+    PipiI18n.setText($('exportStatus'), 'Selecciona Filamentos directos para exportar.');
     return;
   }
   const n = +$('res').value,
@@ -253,16 +248,13 @@ function update() {
       return el;
     }),
   );
-  $('quote').textContent = new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-  }).format(PipiPricing.base[s]);
-  $('pitch').textContent = `${used.length} colores directos · ${(s / n).toFixed(2)} mm por píxel`;
+  PipiI18n.setPrice($('quote'), PipiPricing.base[s]);
+  PipiI18n.setText($('pitch'), `${used.length} colores directos · ${(s / n).toFixed(2)} mm por píxel`);
   const small = s / n < 0.6;
   $('exportPixel').disabled = $('exportPixelStl').disabled = small || exporting;
-  $('exportStatus').textContent = small
+  PipiI18n.setText($('exportStatus'), small
     ? 'Píxel inferior a 0,6 mm. Aumenta el tamaño o reduce la resolución.'
-    : 'Modelo: base de 1,6 mm + píxeles de 0,8 mm. Prueba de fabricación, no validado en impresora.';
+    : 'Modelo: base de 1,6 mm + píxeles de 0,8 mm. Prueba de fabricación, no validado en impresora.');
 }
 function multiData() {
   const n = +$('mvN').value,
@@ -349,7 +341,7 @@ async function output(kind, format) {
   const buttons = ['exportPixel', 'exportPixelStl', 'exportMulti', 'exportMultiStl'].map($);
   buttons.forEach((b) => (b.disabled = true));
   try {
-    stat.textContent = 'Preparando archivo…';
+    PipiI18n.setText(stat, 'Preparando archivo…');
     const ms = kind === 'pixel' ? buildPixel() : buildMulti(),
       name = 'pipi-' + kind;
     const files =
@@ -359,7 +351,7 @@ async function output(kind, format) {
             ...ms.map((m) => [m.name + '.stl', PipiGeometry.stl(m)]),
             [
               'LEEME.txt',
-              'Importa todos los STL juntos como partes de un único objeto. Conserva las coordenadas originales. Asigna cada parte al filamento indicado en su nombre. Modelo experimental; revisa contactos, solapamientos, escala y trayectorias antes de imprimir. No incluye recetas de mezcla.',
+              PipiI18n.translate('Importa todos los STL juntos como partes de un único objeto. Conserva las coordenadas originales. Asigna cada parte al filamento indicado en su nombre. Modelo experimental; revisa contactos, solapamientos, escala y trayectorias antes de imprimir. No incluye recetas de mezcla.'),
             ],
           ];
     const bytes = await PipiZip.zip(files);
@@ -367,12 +359,11 @@ async function output(kind, format) {
       new Blob([bytes], { type: 'application/zip' }),
       name + (format === '3mf' ? '.3mf' : '-stl.zip'),
     );
-    stat.textContent =
-      'Archivo generado: ' +
+    PipiI18n.setText(stat, 'Archivo generado: ' +
       ms.length +
-      ' piezas por color. Verifica escala, asignación de materiales y trayectorias en el laminador.';
+      ' piezas por color. Verifica escala, asignación de materiales y trayectorias en el laminador.');
   } catch (e) {
-    stat.textContent = 'Error: ' + e.message;
+    PipiI18n.setText(stat, 'Error: ' + e.message);
   } finally {
     exporting = false;
     const blocked =
@@ -405,10 +396,10 @@ $('upload').onchange = async (e) => {
     if (i) {
       source = i;
       update();
-      $('pixelStatus').textContent = 'Foto procesada localmente.';
+      PipiI18n.setText($('pixelStatus'), 'Foto procesada localmente.');
     }
   } catch (err) {
-    $('pixelStatus').textContent = err.message;
+    PipiI18n.setText($('pixelStatus'), err.message);
   }
 };
 ['res', 'colors', 'size', 'frame'].forEach((id) => ($(id).onchange = update));
@@ -433,11 +424,11 @@ $('paletteMode').onchange = () => {
 $('applyPalette').onclick = () => {
   try {
     materialHex = parsePalette();
-    $('paletteError').textContent = 'Paleta aplicada.';
+    PipiI18n.setText($('paletteError'), 'Paleta aplicada.');
     update();
     drawMulti();
   } catch (e) {
-    $('paletteError').textContent = e.message;
+    PipiI18n.setText($('paletteError'), e.message);
   }
 };
 $('angle').oninput = drawMulti;
@@ -460,10 +451,10 @@ document.querySelectorAll('[data-angle]').forEach(
           if (side === 'left') left = i;
           else right = i;
           drawMulti();
-          $('multiStatus').textContent = 'Imagen procesada localmente.';
+          PipiI18n.setText($('multiStatus'), 'Imagen procesada localmente.');
         }
       } catch (err) {
-        $('multiStatus').textContent = err.message;
+        PipiI18n.setText($('multiStatus'), err.message);
       }
     }),
 );

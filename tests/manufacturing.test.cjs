@@ -139,12 +139,13 @@ function uiTests(src, E, G, Z, P, assert) {
       return [];
     },
   };
-  new Function('document', 'PipiColor', 'PipiGeometry', 'PipiZip', 'PipiPricing', src)(
+  new Function('document', 'PipiColor', 'PipiGeometry', 'PipiZip', 'PipiPricing', 'PipiI18n', src)(
     doc,
     E,
     G,
     Z,
     P,
+    require('../engine/i18n.js'),
   );
   const $ = doc.getElementById;
   assert($('exportPixel').disabled, 'digital disabled');

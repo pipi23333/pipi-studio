@@ -294,16 +294,17 @@
           min-height: 240px;
         }
       }
-    </style>
+    [hidden]{display:none!important}body[data-language-pending] > :is(header,main,footer){visibility:hidden}#languageGate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#f8f6f0;padding:20px;overflow:auto}.language-card{width:min(100%,440px);padding:28px;border:1px solid #dcdcd3;border-radius:20px;background:#fff;box-shadow:0 12px 40px #25272214;text-align:center}.language-brand{font-weight:850;font-size:23px;letter-spacing:-.05em;color:#71814f}.language-card h2{margin:16px 0 4px;font-size:30px;line-height:1.2}.language-card p{color:#656861}.language-options{display:grid;gap:10px;margin:22px 0 10px}.language-options button{width:100%;padding:14px;background:#252722;color:white;border:0;border-radius:9px;font:inherit;cursor:pointer}#languageCancel,#languageSwitch{font:inherit;background:#e2e8d0;color:#252722;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}#languageSwitch{font-size:13px;white-space:nowrap}body[data-language-pending]{overflow:hidden}#languageGate button:focus-visible,#languageSwitch:focus-visible{outline:3px solid #71814f;outline-offset:3px}header{flex-wrap:wrap}
+</style>
   </head>
-  <body>
+  <body data-language-pending=""><div id="languageGate" role="dialog" aria-modal="true" aria-labelledby="languageTitle"><div class="language-card"><div class="language-brand">PIPI. STUDIO</div><h2 id="languageTitle">Choose your language</h2><p>Selecciona tu idioma · 请选择语言</p><div class="language-options"><button type="button" data-language="es" lang="es">Español</button><button type="button" data-language="en" lang="en">English</button><button type="button" data-language="zh" lang="zh-CN">简体中文</button></div><button id="languageCancel" type="button" hidden>Volver / Back / 返回</button><noscript><p>Activa JavaScript / Enable JavaScript / 请启用 JavaScript</p></noscript></div></div>
     <header>
       <div class="brand">PIPI<span style="color: #71814f">.</span> STUDIO</div>
       <nav>
         <a href="#colecciones">Colecciones</a><a href="#pixel">Personaliza</a
         ><a href="#multiview">MultiView</a><a href="color-lab.html">Color Lab V3.4</a>
       </nav>
-    </header>
+    <button id="languageSwitch" type="button">Idioma / Language / 语言</button></header>
     <main>
       <div class="notice">
         Laboratorio V2 · Vista previa y archivos de prueba. No admite pedidos, pagos ni envíos. Los
@@ -511,7 +512,7 @@
         ningún servidor.
       </p>
     </footer>
-    <script src="engine/color-engine.js"></script>
+    <script src="engine/i18n.js"></script><script src="engine/color-engine.js"></script>
     <script src="engine/geometry.js"></script>
     <script src="engine/zip.js"></script>
     <script src="engine/pricing.js"></script>

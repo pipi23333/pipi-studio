@@ -3,7 +3,7 @@
   "version": "3.4.1",
   "private": true,
   "scripts": {
-    "test": "node tests/color-engine.test.cjs && node tests/manufacturing.test.cjs",
+    "test": "node tests/color-engine.test.cjs && node tests/manufacturing.test.cjs && node tests/i18n.test.cjs",
     "format": "prettier --write engine tests index.html color-lab.html package.json",
     "format:check": "prettier --check engine tests index.html color-lab.html package.json"
   },
