@@ -7,31 +7,120 @@ const hex=rgb=>'#'+rgb.map(v=>v.toString(16).padStart(2,'0')).join('').toUpperCa
 function rgbToLab(rgb){const [r,g,b]=rgb.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4});const f=t=>t>216/24389?Math.cbrt(t):(24389/27*t+16)/116;const x=f((.4124564*r+.3575761*g+.1804375*b)/.95047),y=f(.2126729*r+.7151522*g+.072175*b),z=f((.0193339*r+.119192*g+.9503041*b)/1.08883);return [116*y-16,500*(x-y),200*(y-z)]}
 function labToRGB([l,a,b]){let y=(l+16)/116,x=y+a/500,z=y-b/200;const f=t=>t**3>216/24389?t**3:(116*t-16)/(24389/27),X=.95047*f(x),Y=f(y),Z=1.08883*f(z);return [3.2404542*X-1.5371385*Y-.4985314*Z,-.969266*X+1.8760108*Y+.041556*Z,.0556434*X-.2040259*Y+1.0572252*Z].map(v=>Math.round(clamp(255*(v<=.0031308?12.92*v:1.055*v**(1/2.4)-.055),0,255)))}
 // Sharma, Wu, Dalal (2005), kL=kC=kH=1.
-function deltaE2000([L1,a1,b1],[L2,a2,b2]){
-const c=(Math.hypot(a1,b1)+Math.hypot(a2,b2))/2,G=.5*(1-Math.sqrt(c**7/(c**7+25**7))),A1=(1+G)*a1,A2=(1+G)*a2,C1=Math.hypot(A1,b1),C2=Math.hypot(A2,b2);
-const hue=(a,b)=>a===0&&b===0?0:(Math.atan2(b,a)/rad+360)%360;
-const h1=hue(A1,b1),h2=hue(A2,b2),dL=L2-L1,dC=C2-C1;let dh=h2-h1;
-if(C1*C2===0)dh=0;else if(dh>180+1e-10)dh-=360;else if(dh< -180-1e-10)dh+=360;
-const dH=2*Math.sqrt(C1*C2)*sin(dh/2),L=(L1+L2)/2,C=(C1+C2)/2;
-let h;if(C1*C2===0)h=h1+h2;else if(Math.abs(h1-h2)<=180+1e-10)h=(h1+h2)/2;else h=(h1+h2+(h1+h2<360?360:-360))/2;
-const T=1-.17*cos(h-30)+.24*cos(2*h)+.32*cos(3*h+6)-.20*cos(4*h-63),SL=1+.015*(L-50)**2/Math.sqrt(20+(L-50)**2),SC=1+.045*C,SH=1+.015*C*T,RT=-2*Math.sqrt(C**7/(C**7+25**7))*sin(60*Math.exp(-(((h-275)/25)**2)));
-return Math.sqrt(Math.max(0,(dL/SL)**2+(dC/SC)**2+(dH/SH)**2+RT*(dC/SC)*(dH/SH)))}
+function deltaE2000([L1, a1, b1], [L2, a2, b2]) {
+  const c = (Math.hypot(a1, b1) + Math.hypot(a2, b2)) / 2;
+  const G = 0.5 * (1 - Math.sqrt(c ** 7 / (c ** 7 + 25 ** 7)));
+  const A1 = (1 + G) * a1, A2 = (1 + G) * a2;
+  const C1 = Math.hypot(A1, b1), C2 = Math.hypot(A2, b2);
+  const hue = (a, b) => a === 0 && b === 0 ? 0 : (Math.atan2(b, a) / rad + 360) % 360;
+  const h1 = hue(A1, b1), h2 = hue(A2, b2);
+  const dL = L2 - L1, dC = C2 - C1;
+  let dh = h2 - h1;
+  if (C1 * C2 === 0) dh = 0;
+  else if (dh > 180 + 1e-10) dh -= 360;
+  else if (dh < -180 - 1e-10) dh += 360;
+  const dH = 2 * Math.sqrt(C1 * C2) * sin(dh / 2);
+  const L = (L1 + L2) / 2, C = (C1 + C2) / 2;
+  let h;
+  if (C1 * C2 === 0) h = h1 + h2;
+  else if (Math.abs(h1 - h2) <= 180 + 1e-10) h = (h1 + h2) / 2;
+  else h = (h1 + h2 + (h1 + h2 < 360 ? 360 : -360)) / 2;
+  const T = 1 - 0.17 * cos(h - 30) + 0.24 * cos(2 * h)
+    + 0.32 * cos(3 * h + 6) - 0.20 * cos(4 * h - 63);
+  const SL = 1 + 0.015 * (L - 50) ** 2 / Math.sqrt(20 + (L - 50) ** 2);
+  const SC = 1 + 0.045 * C, SH = 1 + 0.015 * C * T;
+  const RT = -2 * Math.sqrt(C ** 7 / (C ** 7 + 25 ** 7))
+    * sin(60 * Math.exp(-(((h - 275) / 25) ** 2)));
+  return Math.sqrt(Math.max(0,
+    (dL / SL) ** 2 + (dC / SC) ** 2 + (dH / SH) ** 2 + RT * (dC / SC) * (dH / SH)
+  ));
+}
 const channels=['C','M','Y','K','W'],surfaces=['top','left45','right45','vertical'];
 function candidates(step=10){if(![5,10,20,25].includes(step))throw Error('Paso inválido');const arr=channels.map(c=>({id:c,filaments:[c],ratios:[100],source:'pending',lab:null,notes:''}));for(let i=0;i<5;i++)for(let j=i+1;j<5;j++)for(let p=step;p<100;p+=step)arr.push({id:`${channels[i]}${channels[j]}-${100-p}-${p}`,filaments:[channels[i],channels[j]],ratios:[100-p,p],source:'pending',lab:null,notes:''});return arr}
 const defaultProfile=()=>({id:'demo-d65-top',surface:'top',illuminant:'D65',observer:2,material:'PLA (example)',printer:'Unverified',nozzleMm:.4,layerMm:.2,notes:'Illustrative profile; separate real configurations.'});
 function exampleDB(){return {version:1,profile:defaultProfile(),recipes:candidates().map((r,i)=>i<5?{...r,source:'illustrative',lab:rgbToLab(hexRGB(['#00B5DB','#DC1685','#F4D900','#222222','#FAFAFA'][i])),notes:'Digital example; not measured'}:r)}}
-function validateDB(db){if(!db||db.version!==1||!db.profile||!Array.isArray(db.recipes)||db.recipes.length<1||db.recipes.length>300)throw Error('Esquema inválido (1–300 recetas)');const p=db.profile,validId=(x,n)=>typeof x==='string'&&x.length<=n&&/^[A-Za-z0-9_-]+$/.test(x);
-if(!validId(p.id,80)||!surfaces.includes(p.surface)||p.illuminant!=='D65'||p.observer!==2||typeof p.material!=='string'||!p.material.trim()||typeof p.printer!=='string'||!p.printer.trim()||!Number.isFinite(p.nozzleMm)||p.nozzleMm<=0||!Number.isFinite(p.layerMm)||p.layerMm<=0||p.layerMm>p.nozzleMm)throw Error('Perfil inválido: Lab D65/2°, material, impresora, boquilla y capa');
-const seen=new Set();for(const r of db.recipes){if(!r||!validId(r.id,80)||seen.has(r.id))throw Error('ID inválido o duplicado');seen.add(r.id);if(!Array.isArray(r.filaments)||r.filaments.length<1||r.filaments.length>9||new Set(r.filaments).size!==r.filaments.length||r.filaments.some(x=>!validId(x,40))||!Array.isArray(r.ratios)||r.ratios.length!==r.filaments.length||r.ratios.some(x=>!Number.isFinite(x)||x<=0||x>100)||Math.abs(r.ratios.reduce((a,b)=>a+b,0)-100)>1e-6)throw Error('Receta inválida: '+r.id);
-if(!['pending','illustrative','reference','measured'].includes(r.source))throw Error('Origen inválido: '+r.id);
-if(r.source==='pending'?r.lab!==null:(!Array.isArray(r.lab)||r.lab.length!==3||!r.lab.every(Number.isFinite)||r.lab[0]<0||r.lab[0]>100||r.lab.slice(1).some(x=>Math.abs(x)>200)))throw Error('Lab inválido: '+r.id);
-if(r.source==='measured'&&(typeof r.notes!=='string'||!r.notes.trim()))throw Error('Indica instrumento y condiciones de medición: '+r.id)}return db}
+function validateDB(db) {
+  if (!db || db.version !== 1 || !db.profile || !Array.isArray(db.recipes)
+      || db.recipes.length < 1 || db.recipes.length > 300) {
+    throw Error('Esquema inválido (1–300 recetas)');
+  }
+  const p = db.profile;
+  const validId = (x, n) => typeof x === 'string' && x.length <= n && /^[A-Za-z0-9_-]+$/.test(x);
+  if (!validId(p.id, 80) || !surfaces.includes(p.surface)
+      || p.illuminant !== 'D65' || p.observer !== 2
+      || typeof p.material !== 'string' || !p.material.trim()
+      || typeof p.printer !== 'string' || !p.printer.trim()
+      || !Number.isFinite(p.nozzleMm) || p.nozzleMm <= 0
+      || !Number.isFinite(p.layerMm) || p.layerMm <= 0 || p.layerMm > p.nozzleMm) {
+    throw Error('Perfil inválido: Lab D65/2°, material, impresora, boquilla y capa');
+  }
+  const seen = new Set();
+  for (const r of db.recipes) {
+    if (!r || !validId(r.id, 80) || seen.has(r.id)) throw Error('ID inválido o duplicado');
+    seen.add(r.id);
+    if (!Array.isArray(r.filaments) || r.filaments.length < 1 || r.filaments.length > 9
+        || new Set(r.filaments).size !== r.filaments.length
+        || r.filaments.some(x => !validId(x, 40))
+        || !Array.isArray(r.ratios) || r.ratios.length !== r.filaments.length
+        || r.ratios.some(x => !Number.isFinite(x) || x <= 0 || x > 100)
+        || Math.abs(r.ratios.reduce((a,b) => a+b, 0) - 100) > 1e-6) {
+      throw Error('Receta inválida: ' + r.id);
+    }
+    if (!['pending','illustrative','reference','measured'].includes(r.source)) {
+      throw Error('Origen inválido: ' + r.id);
+    }
+    if (r.source === 'pending' ? r.lab !== null : (
+        !Array.isArray(r.lab) || r.lab.length !== 3 || !r.lab.every(Number.isFinite)
+        || r.lab[0] < 0 || r.lab[0] > 100 || r.lab.slice(1).some(x => Math.abs(x) > 200))) {
+      throw Error('Lab inválido: ' + r.id);
+    }
+    if (r.source === 'measured' && (typeof r.notes !== 'string' || !r.notes.trim())) {
+      throw Error('Indica instrumento y condiciones de medición: ' + r.id);
+    }
+  }
+  return db;
+}
 function eligible(db,mode='measured'){validateDB(db);if(!['measured','preview'].includes(mode))throw Error('Modo inválido');return db.recipes.filter(r=>r.lab!==null&&(mode==='preview'||r.source==='measured'))}
 function best(target,recipes){if(!recipes.length)throw Error('No hay recetas elegibles');let recipe=recipes[0],error=Infinity;for(const r of recipes){const e=deltaE2000(target,r.lab);if(e<error){recipe=r;error=e}}return {recipe,error}}
 function heatColor(e){return e<2?[55,143,105]:e<5?[229,182,65]:e<10?[231,111,51]:[178,42,62]}
-function mapImage(rgba,width,height,db,mode='measured'){if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width*height>128*128||rgba.length!==width*height*4)throw Error('Dimensiones inválidas');const rs=eligible(db,mode);if(!rs.length)throw Error('No hay colores medidos para este perfil');const out=new Uint8ClampedArray(rgba.length),heat=new Uint8ClampedArray(rgba.length),errors=[],ids=[],usage=new Map(),cache=new Map();
-for(let i=0;i<rgba.length;i+=4){const alpha=rgba[i+3]/255,rgb=[0,1,2].map(j=>Math.round(rgba[i+j]*alpha+255*(1-alpha))),key=rgb.join(',');let m=cache.get(key);if(!m){m=best(rgbToLab(rgb),rs);m.rgb=labToRGB(m.recipe.lab);cache.set(key,m)}out.set([...m.rgb,255],i);heat.set([...heatColor(m.error),255],i);errors.push(m.error);ids.push(m.recipe.id);usage.set(m.recipe.id,(usage.get(m.recipe.id)||0)+1)}
-const sorted=errors.slice().sort((a,b)=>a-b);return {out,heat,errors,ids,usage:[...usage].map(([id,count])=>({id,count})),stats:{mean:errors.reduce((a,b)=>a+b,0)/errors.length,p95:sorted[Math.ceil(.95*sorted.length)-1],max:sorted[sorted.length-1],under2:100*errors.filter(x=>x<2).length/errors.length}}}
+function mapImage(rgba, width, height, db, mode = 'measured') {
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1
+      || width * height > 128 * 128 || rgba.length !== width * height * 4) {
+    throw Error('Dimensiones inválidas');
+  }
+  const rs = eligible(db, mode);
+  if (!rs.length) throw Error('No hay colores medidos para este perfil');
+  const out = new Uint8ClampedArray(rgba.length);
+  const heat = new Uint8ClampedArray(rgba.length);
+  const errors = [], ids = [], usage = new Map(), cache = new Map();
+  for (let i = 0; i < rgba.length; i += 4) {
+    const alpha = rgba[i + 3] / 255;
+    const rgb = [0,1,2].map(j => Math.round(rgba[i+j] * alpha + 255 * (1-alpha)));
+    const key = rgb.join(',');
+    let m = cache.get(key);
+    if (!m) {
+      m = best(rgbToLab(rgb), rs);
+      m.rgb = labToRGB(m.recipe.lab);
+      cache.set(key, m);
+    }
+    out.set([...m.rgb, 255], i);
+    heat.set([...heatColor(m.error), 255], i);
+    errors.push(m.error);
+    ids.push(m.recipe.id);
+    usage.set(m.recipe.id, (usage.get(m.recipe.id) || 0) + 1);
+  }
+  const sorted = errors.slice().sort((a,b) => a-b);
+  return {
+    out, heat, errors, ids,
+    usage: [...usage].map(([id,count]) => ({id,count})),
+    stats: {
+      mean: errors.reduce((a,b) => a+b,0) / errors.length,
+      p95: sorted[Math.ceil(0.95 * sorted.length) - 1],
+      max: sorted[sorted.length - 1],
+      under2: 100 * errors.filter(x => x < 2).length / errors.length
+    }
+  };
+}
 function layout(recipes,page=1){const pages=Math.ceil(recipes.length/64);if(!Number.isInteger(page)||page<1||page>pages)throw Error('Página inválida');return {page,pages,tiles:recipes.slice((page-1)*64,page*64).map((recipe,i)=>({recipe,x:3+(i%8)*18,y:3+Math.floor(i/8)*18,number:(page-1)*64+i+1}))}}
 const xml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));
 function chartSVG(db,page){validateDB(db);const l=layout(db.recipes,page);return `<svg xmlns="http://www.w3.org/2000/svg" width="147mm" height="166mm" viewBox="0 0 147 166"><rect width="147" height="166" fill="white"/><text x="3" y="6" font-size="3.5" font-family="sans-serif">PIPI Color / ${xml(db.profile.id)} / ${page} of ${l.pages}</text><g transform="translate(0 10)">${l.tiles.map(t=>`<rect x="${t.x}" y="${t.y}" width="15" height="15" fill="${t.recipe.lab?hex(labToRGB(t.recipe.lab)):'#eee'}" stroke="#333" stroke-width=".2"/><text x="${t.x+7.5}" y="${t.y+6}" text-anchor="middle" font-family="sans-serif" font-size="3" fill="#111" stroke="white" stroke-width=".15" paint-order="stroke">${t.number}</text><text x="${t.x+7.5}" y="${t.y+11}" text-anchor="middle" font-family="sans-serif" font-size="1.8" fill="#111" stroke="white" stroke-width=".15" paint-order="stroke">${xml(t.recipe.id.length>13?t.recipe.id.slice(0,12)+'…':t.recipe.id)}</text>`).join('')}</g><text x="3" y="160" font-size="2.7" font-family="sans-serif">Digital guide only; CSV identifies every physical sample.</text></svg>`}
